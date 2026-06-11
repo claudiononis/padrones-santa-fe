@@ -16,10 +16,6 @@
   padding-bottom: 4rem;
 }
 
-.sfPageScroll {
-  height: 100%;
-}
-
 .sfMessageList {
   background: var(--sapGroup_ContentBackground);
 }

@@ -78,12 +78,6 @@
     </f:header>
 
     <f:content>
-      <ScrollContainer
-        height="100%"
-        vertical="true"
-        horizontal="false"
-        focusable="true"
-        class="sfPageScroll">
       <VBox class="sfContent sapUiResponsiveContentPadding">
         <IconTabBar expandable="false" class="sapUiNoContentPadding sfContentTabs">
           <items>
@@ -224,7 +218,6 @@
           </items>
         </IconTabBar>
       </VBox>
-      </ScrollContainer>
     </f:content>
   </f:DynamicPage>
 </mvc:View>
