@@ -47,21 +47,24 @@
 
 .sfProcessKpis {
   gap: 1rem;
-}
-
-.sfProcessTile {
-  min-width: 9rem;
-  min-height: 6rem;
-  padding: 0.75rem;
-  border: 1px solid var(--sapTile_BorderColor);
-  border-radius: 0.75rem;
-  background: var(--sapTile_Background);
-  box-shadow: var(--sapContent_Shadow0);
+  align-items: stretch;
   justify-content: center;
 }
 
+.sfProcessTile {
+  width: 10rem;
+  min-height: 6.75rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--sapList_BorderColor);
+  border-radius: 0.5rem;
+  background: var(--sapList_Background);
+  box-shadow: var(--sapContent_Shadow1);
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 .sfProcessTileWide {
-  min-width: 12rem;
+  width: 13rem;
 }
 
 .sfProcessTileIcon {
@@ -70,6 +73,10 @@
 
 .sfProcessTile .sapMObjectNumber {
   margin-top: 0.25rem;
+}
+
+.sfProcessTile:hover {
+  box-shadow: var(--sapContent_Shadow2);
 }
 
 .sfTableScroll {
