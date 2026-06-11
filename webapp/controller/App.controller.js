@@ -32,7 +32,7 @@ sap.ui.define([
 
       if (sLastJobId) {
         this.getView().getModel("app").setProperty("/jobId", sLastJobId);
-        this.getView().getModel("app").setProperty("/messages", [{
+        this._setMessages([{
           type: "Information",
           text: "Consultando estado del ultimo job..."
         }]);
@@ -136,9 +136,12 @@ sap.ui.define([
 
       oModel.setProperty("/busy", true);
       oModel.setProperty("/rows", []);
-      oModel.setProperty("/messages", [{
+      this._setMessages([{
         type: "Information",
-        text: "Validando archivo y filtrando CUITs contra Business Partner..."
+        text: "Archivo leído. Validando " + aRawLines.length + " líneas del padrón."
+      }, {
+        type: "Information",
+        text: "Consultando Business Partners en S/4HANA para filtrar CUITs existentes."
       }]);
 
       aRawLines.forEach(function (sLine, iIndex) {
@@ -201,7 +204,7 @@ sap.ui.define([
         });
 
         oModel.setProperty("/rows", aValidRowsInClient);
-        oModel.setProperty("/messages", aMessages);
+        this._addMessages(aMessages);
         oModel.setProperty("/totalRows", aRawLines.length);
         oModel.setProperty("/validRows", aValidRowsInClient.length);
         oModel.setProperty("/warningRows", iWarningRows);
@@ -212,10 +215,10 @@ sap.ui.define([
         console.error("No se pudieron recuperar los Business Partners.", oError);
 
         oModel.setProperty("/rows", []);
-        oModel.setProperty("/messages", [{
+        this._addMessage({
           type: "Error",
           text: "No se pudieron recuperar los Business Partners desde API_BUSINESS_PARTNER. " + sErrorDetail
-        }]);
+        });
         oModel.setProperty("/totalRows", aRawLines.length);
         oModel.setProperty("/validRows", 0);
         oModel.setProperty("/warningRows", iWarningRows);
@@ -307,10 +310,10 @@ sap.ui.define([
       this._stopJobPolling();
 
       oModel.setProperty("/busy", true);
-      oModel.setProperty("/messages", [{
+      this._addMessage({
         type: "Information",
-        text: "Enviando registros filtrados para procesamiento en segundo plano..."
-      }]);
+        text: "Enviando " + aRows.length + " registros al backend para procesamiento."
+      });
 
       try {
         const oResponse = await fetch("/api/jobs", {
@@ -335,18 +338,18 @@ sap.ui.define([
         oModel.setProperty("/jobStatus", oJob.status);
         window.localStorage.setItem("padonesSantaFeLastJobId", oJob.id);
         oModel.setProperty("/jobStartedAt", oJob.startedAt || "");
-        oModel.setProperty("/messages", [{
+        this._addMessage({
           type: "Information",
           text: "Job en proceso. ID: " + oJob.id + ". Inicio: " + this._formatDateTime(oJob.startedAt)
-        }]);
+        });
 
         this._startJobPolling(oJob.id);
       } catch (oError) {
         oModel.setProperty("/busy", false);
-        oModel.setProperty("/messages", [{
+        this._addMessage({
           type: "Error",
           text: "No se pudo iniciar el job. " + (oError.message || oError)
-        }]);
+        });
         MessageBox.error("No se pudo iniciar el job de procesamiento.");
       }
     },
@@ -390,7 +393,7 @@ sap.ui.define([
         oModel.setProperty("/totalRows", oJob.totalRows || oModel.getProperty("/totalRows") || 0);
         oModel.setProperty("/validRows", oJob.validRows || oModel.getProperty("/validRows") || 0);
         oModel.setProperty("/errorRows", oJob.errorCount || 0);
-        oModel.setProperty("/messages", [this._buildJobMessage(oJob)]);
+        this._addMessage(this._buildJobMessage(oJob), true);
 
         if (bFinished) {
           this._stopJobPolling();
@@ -407,10 +410,10 @@ sap.ui.define([
       } catch (oError) {
         this._stopJobPolling();
         oModel.setProperty("/busy", false);
-        oModel.setProperty("/messages", [{
+        this._addMessage({
           type: "Error",
           text: "No se pudo consultar el estado del job. " + (oError.message || oError)
-        }]);
+        });
       }
     },
 
@@ -458,6 +461,40 @@ sap.ui.define([
         type: "Information",
         text: "Estado del job: " + sStatus
       };
+    },
+
+    _setMessages: function (aMessages) {
+      this.getView().getModel("app").setProperty("/messages", this._normalizeMessages(aMessages));
+    },
+
+    _addMessages: function (aMessages) {
+      aMessages.forEach(function (oMessage) {
+        this._addMessage(oMessage);
+      }.bind(this));
+    },
+
+    _addMessage: function (oMessage, bSkipDuplicate) {
+      const oModel = this.getView().getModel("app");
+      const aMessages = oModel.getProperty("/messages") || [];
+      const oNormalizedMessage = this._normalizeMessages([oMessage])[0];
+      const oLastMessage = aMessages[aMessages.length - 1];
+
+      if (bSkipDuplicate && oLastMessage && oLastMessage.text === oNormalizedMessage.text && oLastMessage.type === oNormalizedMessage.type) {
+        return;
+      }
+
+      aMessages.push(oNormalizedMessage);
+      oModel.setProperty("/messages", aMessages.slice(-150));
+    },
+
+    _normalizeMessages: function (aMessages) {
+      return (aMessages || []).map(function (oMessage) {
+        return {
+          type: oMessage.type || "Information",
+          text: oMessage.text || "",
+          timestamp: oMessage.timestamp || this._formatDateTime(new Date().toISOString())
+        };
+      }.bind(this));
     },
 
     _formatDateTime: function (sValue) {

@@ -162,18 +162,33 @@
             </IconTabFilter>
 
             <IconTabFilter text="Log" icon="sap-icon://message-popup">
-              <List
-                items="{app>/messages}"
-                noDataText="Sin mensajes."
-                class="sfMessageList">
-                <CustomListItem>
-                  <MessageStrip
-                    text="{app>text}"
-                    type="{app>type}"
-                    showIcon="true"
-                    class="sapUiTinyMargin"/>
-                </CustomListItem>
-              </List>
+              <VBox class="sfResultCard">
+                <OverflowToolbar class="sfResultToolbar">
+                  <Title text="Registro de actividad" level="H2"/>
+                  <ToolbarSpacer/>
+                  <ObjectStatus
+                    text="{= ${app>/messages}.length + ' eventos' }"
+                    state="Information"
+                    icon="sap-icon://activity-items"/>
+                </OverflowToolbar>
+                <List
+                  items="{app>/messages}"
+                  noDataText="Todavía no hay eventos registrados."
+                  class="sfMessageList">
+                  <CustomListItem>
+                    <HBox alignItems="Start" class="sfLogItem">
+                      <ObjectStatus
+                        state="{app>type}"
+                        icon="{= ${app>type} === 'Error' ? 'sap-icon://error' : ${app>type} === 'Warning' ? 'sap-icon://alert' : ${app>type} === 'Success' ? 'sap-icon://sys-enter-2' : 'sap-icon://hint' }"
+                        class="sapUiTinyMarginEnd"/>
+                      <VBox>
+                        <Text text="{app>text}" wrapping="true"/>
+                        <Text text="{app>timestamp}" class="sfLogTimestamp"/>
+                      </VBox>
+                    </HBox>
+                  </CustomListItem>
+                </List>
+              </VBox>
             </IconTabFilter>
           </items>
         </IconTabBar>
