@@ -207,17 +207,21 @@ sap.ui.define([
         oModel.setProperty("/warningRows", iWarningRows);
         oModel.setProperty("/errorRows", iErrorRows);
       } catch (oError) {
+        const sErrorDetail = oError && oError.message ? oError.message : String(oError || "");
+
+        console.error("No se pudieron recuperar los Business Partners.", oError);
+
         oModel.setProperty("/rows", []);
         oModel.setProperty("/messages", [{
           type: "Error",
-          text: "No se pudieron recuperar los Business Partners desde API_BUSINESS_PARTNER. " + (oError.message || "")
+          text: "No se pudieron recuperar los Business Partners desde API_BUSINESS_PARTNER. " + sErrorDetail
         }]);
         oModel.setProperty("/totalRows", aRawLines.length);
         oModel.setProperty("/validRows", 0);
         oModel.setProperty("/warningRows", iWarningRows);
         oModel.setProperty("/errorRows", iErrorRows);
 
-        MessageBox.error("No se pudieron recuperar los Business Partners desde API_BUSINESS_PARTNER.");
+        MessageBox.error("No se pudieron recuperar los Business Partners desde API_BUSINESS_PARTNER.\n\nDetalle: " + sErrorDetail);
       } finally {
         oModel.setProperty("/busy", false);
       }
@@ -238,7 +242,7 @@ sap.ui.define([
         });
 
         if (!oResponse.ok) {
-          throw new Error("HTTP " + oResponse.status + " al consultar A_BusinessPartnerTaxNumber");
+          throw new Error("HTTP " + oResponse.status + " al consultar A_BusinessPartnerTaxNumber: " + await oResponse.text());
         }
 
         const oData = await oResponse.json();
@@ -273,7 +277,7 @@ sap.ui.define([
         });
 
         if (!oResponse.ok) {
-          throw new Error("HTTP " + oResponse.status + " al consultar A_BusinessPartner");
+          throw new Error("HTTP " + oResponse.status + " al consultar A_BusinessPartner: " + await oResponse.text());
         }
 
         const oData = await oResponse.json();

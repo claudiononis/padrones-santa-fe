@@ -10,10 +10,8 @@ server:
         ignoreCertErrors: false
         backend:
           - path: /s4
-            pathReplace: /sap
             destination: S4HANA-BP
           - path: /pricing
-            pathReplace: /sap
             destination: S4HANA-PRICING
         ui5:
           path:
