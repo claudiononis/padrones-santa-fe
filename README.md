@@ -43,6 +43,15 @@ npm install
 npm start
 ```
 
+En SAP Business Application Studio, para probar también el flujo de backend local, abrir dos terminales:
+
+```bash
+npm run start-api-local
+npm start
+```
+
+El backend local usa `LOCAL_DEV_MODE=true`, guarda jobs en memoria y simula el procesamiento SAP. En Cloud Foundry se usan PostgreSQL y Destination Service reales.
+
 ## Build MTA
 
 ```powershell

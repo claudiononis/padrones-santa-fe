@@ -8,6 +8,7 @@
     "start_old": "npx http-server webapp -p 5173 -c-1",
     "build_old": "ui5 build --dest dist",
     "start": "fiori run --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#app-tile\"",
+    "start-api-local": "npm --prefix srv install && cd srv && LOCAL_DEV_MODE=true PORT=8081 npm start",
     "start-local": "fiori run --config ./ui5-local.yaml --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#app-tile\"",
     "start-noflp": "fiori run --open \"index.html?sap-ui-xx-viewCache=false\"",
     "start-variants-management": "fiori run --open \"preview.html?sap-ui-xx-viewCache=false&fiori-tools-rta-mode=true&sap-ui-rta-skip-flex-validation=true#preview-app\"",

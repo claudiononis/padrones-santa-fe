@@ -24,6 +24,8 @@ server:
       configuration:
         ignoreCertErrors: false
         backend:
+          - path: /api
+            url: http://localhost:8081
           - path: /sap
             url: https://my415609-api.s4hana.cloud.sap
             destination: S4HANA-BP

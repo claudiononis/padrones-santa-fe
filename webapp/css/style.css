@@ -18,6 +18,11 @@
   background: var(--sapGroup_ContentBackground);
 }
 
+.sfTableScroll {
+  border-top: 1px solid var(--sapList_BorderColor);
+  border-bottom: 1px solid var(--sapList_BorderColor);
+}
+
 @media (max-width: 700px) {
   .sfKpiStrip {
     justify-content: flex-start;

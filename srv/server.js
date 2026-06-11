@@ -20,6 +20,7 @@ const BP_TAX_CONFIG = {
 
 const HTTP_TIMEOUT_MS = 60000;
 const JOB_PROGRESS_UPDATE_EVERY = 1;
+const LOCAL_DEV_MODE = process.env.LOCAL_DEV_MODE === "true";
 
 app.use(express.json({ limit: "100mb" }));
 
@@ -67,7 +68,91 @@ function createPool() {
   });
 }
 
-const pool = createPool();
+function createLocalPool() {
+  const jobs = new Map();
+
+  return {
+    query: async function (sql, params) {
+      const normalizedSql = String(sql || "").replace(/\s+/g, " ").trim().toLowerCase();
+
+      if (normalizedSql.indexOf("create table") === 0) {
+        return { rows: [] };
+      }
+
+      if (normalizedSql === "select 1") {
+        return { rows: [{ "?column?": 1 }] };
+      }
+
+      if (normalizedSql.indexOf("insert into padrones_jobs") === 0) {
+        jobs.set(params[0], {
+          id: params[0],
+          fileName: params[1],
+          status: params[2],
+          startedAt: params[3],
+          finishedAt: null,
+          totalRows: params[4],
+          validRows: params[5],
+          createdCount: 0,
+          updatedCount: 0,
+          errorCount: 0,
+          message: params[6]
+        });
+
+        return { rows: [] };
+      }
+
+      if (normalizedSql.indexOf("update padrones_jobs set message") === 0) {
+        const job = jobs.get(params[1]);
+
+        if (job) {
+          job.message = params[0];
+        }
+
+        return { rows: [] };
+      }
+
+      if (normalizedSql.indexOf("update padrones_jobs set status") === 0 && params.length === 9) {
+        const job = jobs.get(params[8]);
+
+        if (job) {
+          job.status = params[0];
+          job.finishedAt = params[1];
+          job.totalRows = params[2];
+          job.validRows = params[3];
+          job.createdCount = params[4];
+          job.updatedCount = params[5];
+          job.errorCount = params[6];
+          job.message = params[7];
+        }
+
+        return { rows: [] };
+      }
+
+      if (normalizedSql.indexOf("update padrones_jobs set status") === 0 && params.length === 5) {
+        const job = jobs.get(params[4]);
+
+        if (job) {
+          job.status = params[0];
+          job.finishedAt = params[1];
+          job.errorCount = params[2];
+          job.message = params[3];
+        }
+
+        return { rows: [] };
+      }
+
+      if (normalizedSql.indexOf("select id, file_name") === 0) {
+        const job = jobs.get(params[0]);
+
+        return { rows: job ? [job] : [] };
+      }
+
+      throw new Error("Consulta no soportada en modo local: " + normalizedSql);
+    }
+  };
+}
+
+const pool = LOCAL_DEV_MODE ? createLocalPool() : createPool();
 
 async function ensureSchema() {
   await pool.query(`
@@ -452,6 +537,36 @@ async function processJob(jobId, jobData) {
 
     console.log("Job " + jobId + " iniciado. Registros validos: " + validRows.length);
     await updateJobProgress(jobId, "Job iniciado. Registros validos: " + validRows.length + ".");
+
+    if (LOCAL_DEV_MODE) {
+      await updateJobProgress(jobId, "Modo local: procesamiento backend simulado para " + validRows.length + " registros.");
+
+      await pool.query(
+        `UPDATE padrones_jobs
+         SET status = $1,
+             finished_at = $2,
+             total_rows = $3,
+             valid_rows = $4,
+             created_count = $5,
+             updated_count = $6,
+             error_count = $7,
+             message = $8
+         WHERE id = $9`,
+        [
+          "FINALIZADO",
+          new Date(),
+          totalRows,
+          validRows.length,
+          validRows.length,
+          0,
+          0,
+          "Modo local: job simulado correctamente. Registros recibidos: " + validRows.length + ".",
+          jobId
+        ]
+      );
+
+      return;
+    }
 
     console.log("Job " + jobId + " obteniendo CSRF token BP");
     const bpCsrfToken = await fetchBpCsrfToken();

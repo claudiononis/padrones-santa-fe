@@ -82,55 +82,63 @@
         <IconTabBar expandable="false" class="sapUiNoContentPadding">
           <items>
             <IconTabFilter text="Registros" icon="sap-icon://table-view" count="{app>/validRows}">
-              <Table
-                id="recordsTable"
-                mode="None"
-                sticky="ColumnHeaders,HeaderToolbar"
-                growing="true"
-                growingThreshold="50"
-                items="{app>/rows}"
-                noDataText="Cargá un archivo del padrón para ver los registros válidos.">
-                <headerToolbar>
-                  <OverflowToolbar>
-                    <Title text="Registros listos para procesar" level="H2"/>
-                    <ToolbarSpacer/>
-                    <ObjectStatus
-                      text="{= ${app>/validRows} + ' registros válidos' }"
-                      state="Success"/>
-                  </OverflowToolbar>
-                </headerToolbar>
-                <columns>
-                  <Column width="9rem">
-                    <Text text="CUIT"/>
-                  </Column>
-                  <Column width="6rem" hAlign="Center">
-                    <Text text="Tipo"/>
-                  </Column>
-                  <Column width="9rem" hAlign="End">
-                    <Text text="Alícuota Original"/>
-                  </Column>
-                  <Column width="9rem" hAlign="End">
-                    <Text text="Alícuota SAP"/>
-                  </Column>
-                  <Column minScreenWidth="Tablet" demandPopin="true">
-                    <Text text="Razón Social"/>
-                  </Column>
-                </columns>
-                <items>
-                  <ColumnListItem type="Inactive">
-                    <cells>
-                      <ObjectIdentifier title="{app>cuit}" text="{= ${app>customer} ? 'Cliente ' + ${app>customer} : '' }"/>
+              <ScrollContainer
+                height="34rem"
+                vertical="true"
+                horizontal="false"
+                focusable="true"
+                class="sfTableScroll">
+                <Table
+                  id="recordsTable"
+                  mode="None"
+                  sticky="ColumnHeaders,HeaderToolbar"
+                  growing="true"
+                  growingScrollToLoad="true"
+                  growingThreshold="50"
+                  items="{app>/rows}"
+                  noDataText="Cargá un archivo del padrón para ver los registros válidos.">
+                  <headerToolbar>
+                    <OverflowToolbar>
+                      <Title text="Registros listos para procesar" level="H2"/>
+                      <ToolbarSpacer/>
                       <ObjectStatus
-                        text="{app>taxpayerType}"
-                        state="{= ${app>taxpayerType} === 'C' ? 'Warning' : 'Success' }"
-                        icon="{= ${app>taxpayerType} === 'C' ? 'sap-icon://process' : 'sap-icon://accept' }"/>
-                      <ObjectNumber number="{app>originalRate}" unit="%"/>
-                      <ObjectNumber number="{app>rate}" unit="%" emphasized="true"/>
-                      <Text text="{app>companyName}" wrapping="false"/>
-                    </cells>
-                  </ColumnListItem>
-                </items>
-              </Table>
+                        text="{= ${app>/validRows} + ' registros válidos' }"
+                        state="Success"/>
+                    </OverflowToolbar>
+                  </headerToolbar>
+                  <columns>
+                    <Column width="9rem">
+                      <Text text="CUIT"/>
+                    </Column>
+                    <Column width="6rem" hAlign="Center">
+                      <Text text="Tipo"/>
+                    </Column>
+                    <Column width="9rem" hAlign="End">
+                      <Text text="Alícuota Original"/>
+                    </Column>
+                    <Column width="9rem" hAlign="End">
+                      <Text text="Alícuota SAP"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                      <Text text="Razón Social"/>
+                    </Column>
+                  </columns>
+                  <items>
+                    <ColumnListItem type="Inactive">
+                      <cells>
+                        <ObjectIdentifier title="{app>cuit}" text="{= ${app>customer} ? 'Cliente ' + ${app>customer} : '' }"/>
+                        <ObjectStatus
+                          text="{app>taxpayerType}"
+                          state="{= ${app>taxpayerType} === 'C' ? 'Warning' : 'Success' }"
+                          icon="{= ${app>taxpayerType} === 'C' ? 'sap-icon://process' : 'sap-icon://accept' }"/>
+                        <ObjectNumber number="{app>originalRate}" unit="%"/>
+                        <ObjectNumber number="{app>rate}" unit="%" emphasized="true"/>
+                        <Text text="{app>companyName}" wrapping="false"/>
+                      </cells>
+                    </ColumnListItem>
+                  </items>
+                </Table>
+              </ScrollContainer>
             </IconTabFilter>
 
             <IconTabFilter text="Log" icon="sap-icon://message-popup">
