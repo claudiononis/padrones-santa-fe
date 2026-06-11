@@ -90,32 +90,40 @@
               state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
           </OverflowToolbar>
           <HBox wrap="Wrap" class="sfProcessKpis sapUiSmallMargin">
-            <VBox class="sfProcessKpi">
+            <VBox class="sfProcessTile">
+              <core:Icon src="sap-icon://create" color="Positive" class="sfProcessTileIcon"/>
               <Label text="Creados"/>
               <ObjectNumber
                 number="{app>/createdCount}"
                 state="Success"
                 emphasized="true"/>
             </VBox>
-            <VBox class="sfProcessKpi">
+            <VBox class="sfProcessTile">
+              <core:Icon src="sap-icon://edit" color="Information" class="sfProcessTileIcon"/>
               <Label text="Actualizados"/>
               <ObjectNumber
                 number="{app>/updatedCount}"
                 state="Information"
                 emphasized="true"/>
             </VBox>
-            <VBox class="sfProcessKpi">
+            <VBox class="sfProcessTile">
+              <core:Icon
+                src="{= ${app>/processedErrorCount} > 0 ? 'sap-icon://error' : 'sap-icon://message-success' }"
+                color="{= ${app>/processedErrorCount} > 0 ? 'Negative' : 'Positive' }"
+                class="sfProcessTileIcon"/>
               <Label text="Errores"/>
               <ObjectNumber
                 number="{app>/processedErrorCount}"
                 state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"
                 emphasized="true"/>
             </VBox>
-            <VBox class="sfProcessKpi">
+            <VBox class="sfProcessTile sfProcessTileWide">
+              <core:Icon src="sap-icon://begin" color="Neutral" class="sfProcessTileIcon"/>
               <Label text="Inicio"/>
               <Text text="{path: 'app>/jobStartedAt', formatter: '.formatDateTime'}"/>
             </VBox>
-            <VBox class="sfProcessKpi">
+            <VBox class="sfProcessTile sfProcessTileWide">
+              <core:Icon src="sap-icon://complete" color="Neutral" class="sfProcessTileIcon"/>
               <Label text="Fin"/>
               <Text text="{path: 'app>/jobFinishedAt', formatter: '.formatDateTime'}"/>
             </VBox>
