@@ -12,6 +12,12 @@
 
 .sfContent {
   box-sizing: border-box;
+  min-height: 100%;
+  padding-bottom: 4rem;
+}
+
+.sfPageScroll {
+  height: 100%;
 }
 
 .sfMessageList {

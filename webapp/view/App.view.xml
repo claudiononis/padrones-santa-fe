@@ -78,6 +78,12 @@
     </f:header>
 
     <f:content>
+      <ScrollContainer
+        height="100%"
+        vertical="true"
+        horizontal="false"
+        focusable="true"
+        class="sfPageScroll">
       <VBox class="sfContent sapUiResponsiveContentPadding">
         <IconTabBar expandable="false" class="sapUiNoContentPadding sfContentTabs">
           <items>
@@ -99,7 +105,7 @@
                   class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"/>
 
                 <ScrollContainer
-                  height="34rem"
+                  height="28rem"
                   vertical="true"
                   horizontal="false"
                   focusable="true"
@@ -171,23 +177,29 @@
                     state="Information"
                     icon="sap-icon://activity-items"/>
                 </OverflowToolbar>
-                <List
-                  items="{app>/messages}"
-                  noDataText="Todavía no hay eventos registrados."
-                  class="sfMessageList">
-                  <CustomListItem>
-                    <HBox alignItems="Start" class="sfLogItem">
-                      <ObjectStatus
-                        state="{app>type}"
-                        icon="{= ${app>type} === 'Error' ? 'sap-icon://error' : ${app>type} === 'Warning' ? 'sap-icon://alert' : ${app>type} === 'Success' ? 'sap-icon://sys-enter-2' : 'sap-icon://hint' }"
-                        class="sapUiTinyMarginEnd"/>
-                      <VBox>
-                        <Text text="{app>text}" wrapping="true"/>
-                        <Text text="{app>timestamp}" class="sfLogTimestamp"/>
-                      </VBox>
-                    </HBox>
-                  </CustomListItem>
-                </List>
+                <ScrollContainer
+                  height="28rem"
+                  vertical="true"
+                  horizontal="false"
+                  focusable="true">
+                  <List
+                    items="{app>/messages}"
+                    noDataText="Todavía no hay eventos registrados."
+                    class="sfMessageList">
+                    <CustomListItem>
+                      <HBox alignItems="Start" class="sfLogItem">
+                        <ObjectStatus
+                          state="{app>type}"
+                          icon="{= ${app>type} === 'Error' ? 'sap-icon://error' : ${app>type} === 'Warning' ? 'sap-icon://alert' : ${app>type} === 'Success' ? 'sap-icon://sys-enter-2' : 'sap-icon://hint' }"
+                          class="sapUiTinyMarginEnd"/>
+                        <VBox>
+                          <Text text="{app>text}" wrapping="true"/>
+                          <Text text="{app>timestamp}" class="sfLogTimestamp"/>
+                        </VBox>
+                      </HBox>
+                    </CustomListItem>
+                  </List>
+                </ScrollContainer>
               </VBox>
             </IconTabFilter>
             <IconTabFilter
@@ -212,6 +224,7 @@
           </items>
         </IconTabBar>
       </VBox>
+      </ScrollContainer>
     </f:content>
   </f:DynamicPage>
 </mvc:View>
