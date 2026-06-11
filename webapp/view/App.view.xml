@@ -199,22 +199,44 @@
             <IconTabFilter
               text="Creados"
               icon="sap-icon://create"
-              count="{app>/createdCount}"
-              enabled="false"/>
+              count="{app>/createdCount}">
+              <VBox class="sfResultCard sfKpiDetail">
+                <ObjectNumber number="{app>/createdCount}" state="Success" emphasized="true"/>
+                <Text text="Registros creados por el backend en SAP."/>
+              </VBox>
+            </IconTabFilter>
             <IconTabFilter
               text="Actualizados"
               icon="sap-icon://edit"
-              count="{app>/updatedCount}"
-              enabled="false"/>
+              count="{app>/updatedCount}">
+              <VBox class="sfResultCard sfKpiDetail">
+                <ObjectNumber number="{app>/updatedCount}" state="Information" emphasized="true"/>
+                <Text text="Registros actualizados por el backend en SAP."/>
+              </VBox>
+            </IconTabFilter>
             <IconTabFilter
               text="Errores"
               icon="sap-icon://error"
-              count="{app>/processedErrorCount}"
-              enabled="false"/>
+              count="{app>/processedErrorCount}">
+              <VBox class="sfResultCard sfKpiDetail">
+                <ObjectNumber
+                  number="{app>/processedErrorCount}"
+                  state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"
+                  emphasized="true"/>
+                <Text text="Errores reportados durante el procesamiento backend."/>
+              </VBox>
+            </IconTabFilter>
             <IconTabFilter
               text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
-              icon="sap-icon://activity-individual"
-              enabled="false"/>
+              icon="sap-icon://activity-individual">
+              <VBox class="sfResultCard sfKpiDetail">
+                <ObjectStatus
+                  text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
+                  state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
+                <Text text="{path: 'app>/jobStartedAt', formatter: '.formatDateTime'}"/>
+                <Text text="{path: 'app>/jobFinishedAt', formatter: '.formatDateTime'}"/>
+              </VBox>
+            </IconTabFilter>
           </items>
         </IconTabBar>
       </VBox>
