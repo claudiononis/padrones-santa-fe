@@ -1,0 +1,54 @@
+{
+    "_version": "1.59.0",
+    "sap.app": {
+        "id": "padones.santa.fe",
+        "type": "application",
+        "title": "Padrón Santa Fe - Percepciones IIBB",
+        "description": "Carga mensual del padrón Santa Fe PARP para condition records de percepciones IIBB.",
+        "applicationVersion": {
+            "version": "0.1.0"
+        },
+        "sourceTemplate": {
+            "id": "@sap/ux-app-migrator:freestyle",
+            "version": "1.20.1",
+            "toolsId": "c06774bb-dd56-43e3-a358-30a3f6578edf"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.120.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.unified": {},
+                "sap.ui.layout": {},
+                "sap.f": {}
+            }
+        },
+        "models": {
+            "app": {
+                "type": "sap.ui.model.json.JSONModel"
+            }
+        },
+        "rootView": {
+            "viewName": "padones.santa.fe.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "padones-santa-fe",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Fiori/UI5 app for monthly upload of Santa Fe PARP tax perception padron.",
+  "scripts": {
+    "build:cf": "npm run build && node scripts/create-html5-zip.js",
+    "start_old": "npx http-server webapp -p 5173 -c-1",
+    "build_old": "ui5 build --dest dist",
+    "start": "fiori run --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#app-tile\"",
+    "start-local": "fiori run --config ./ui5-local.yaml --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#app-tile\"",
+    "start-noflp": "fiori run --open \"index.html?sap-ui-xx-viewCache=false\"",
+    "start-variants-management": "fiori run --open \"preview.html?sap-ui-xx-viewCache=false&fiori-tools-rta-mode=true&sap-ui-rta-skip-flex-validation=true#preview-app\"",
+    "build": "ui5 build -a --clean-dest --include-task=generateCachebusterInfo",
+    "deploy": "fiori verify",
+    "deploy-config": "fiori add deploy-config"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "playwright-core": "^1.59.1",
+    "@ui5/cli": "^4.0.0",
+    "@sap/ux-ui5-tooling": "1",
+    "rimraf": "6.0.1"
+  },
+  "sapuxLayer": "CUSTOMER_BASE",
+  "keywords": [
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "main": "webapp/index.html"
+}

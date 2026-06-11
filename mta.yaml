@@ -1,0 +1,97 @@
+_schema-version: "3.2"
+ID: padones-santa-fe
+version: 0.1.0
+
+parameters:
+  enable-parallel-deployments: true
+
+modules:
+  - name: padones-santa-fe
+    type: html5
+    path: .
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      build-result: dist
+      supported-platforms: []
+
+  - name: padones-santa-fe-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: padones-santa-fe-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - name: padones-santa-fe
+          artifacts:
+            - padones-santa-fe.zip
+          target-path: resources/
+
+  - name: padones-santa-fe-api
+    type: nodejs
+    path: srv
+    parameters:
+      memory: 256M
+      disk-quota: 512M
+    provides:
+      - name: padones-santa-fe-api-destination
+        properties:
+          url: ${default-url}
+    requires:
+      - name: padones-santa-fe-xsuaa
+      - name: padones-santa-fe-destination
+      - name: padones-santa-fe-postgres
+
+  - name: padones-santa-fe-approuter
+    type: approuter.nodejs
+    path: approuter
+    parameters:
+      memory: 256M
+      disk-quota: 512M
+    requires:
+      - name: padones-santa-fe-xsuaa
+      - name: padones-santa-fe-html5-repo-runtime
+      - name: padones-santa-fe-destination
+      - name: padones-santa-fe-api-destination
+        group: destinations
+        properties:
+          name: padones-santa-fe-api
+          url: ~{url}
+          forwardAuthToken: true
+
+resources:
+  - name: padones-santa-fe-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+
+  - name: padones-santa-fe-html5-repo-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
+
+  - name: padones-santa-fe-xsuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+
+  - name: padones-santa-fe-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+
+  - name: padones-santa-fe-postgres
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: postgresql-db
+      service-plan: free

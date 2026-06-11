@@ -1,0 +1,19 @@
+{
+  "name": "padones-santa-fe-api",
+  "version": "0.1.0",
+  "description": "Backend para procesamiento de padrones en background",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@sap/xsenv": "^6.2.1",
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
+    "pg": "^8.21.0",
+    "uuid": "^14.0.0"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "padones-santa-fe-approuter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/@sap/approuter/approuter.js"
+  },
+  "dependencies": {
+    "@sap/approuter": "^16.9.0"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}
