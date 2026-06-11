@@ -72,7 +72,7 @@ cf deploy mta_archives/padones-santa-fe_0.1.0.mtar
 - `html5-apps-repo` host y runtime.
 - `xsuaa`.
 - `destination`.
-- `postgresql-db`.
+- PostgreSQL existente `padrones-tax-upload-postgres`.
 - Destinations hacia S/4HANA:
   - `S4HANA-BP` para `API_BUSINESS_PARTNER`.
   - `S4HANA-PRICING` para `API_SLSPRICINGCONDITIONRECORD_SRV`.
@@ -80,3 +80,5 @@ cf deploy mta_archives/padones-santa-fe_0.1.0.mtar
 ## PostgreSQL
 
 El backend crea automáticamente la tabla `padrones_jobs` si no existe. No requiere cambios de esquema para el formato Santa Fe PARP porque las filas procesadas viajan en el payload del job y los contadores existentes siguen siendo suficientes.
+
+En Cloud Foundry, el MTA reutiliza la instancia existente `padrones-tax-upload-postgres` mediante `org.cloudfoundry.existing-service` para evitar consumir un entitlement adicional de `postgresql-db/free`.

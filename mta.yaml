@@ -91,7 +91,6 @@ resources:
       service-plan: lite
 
   - name: padones-santa-fe-postgres
-    type: org.cloudfoundry.managed-service
+    type: org.cloudfoundry.existing-service
     parameters:
-      service: postgresql-db
-      service-plan: free
+      service-name: padrones-tax-upload-postgres
