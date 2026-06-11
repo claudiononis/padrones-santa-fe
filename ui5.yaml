@@ -10,8 +10,12 @@ server:
         ignoreCertErrors: false
         backend:
           - path: /s4
+            pathReplace: ""
+            url: https://my415609-api.s4hana.cloud.sap
             destination: S4HANA-BP
           - path: /pricing
+            pathReplace: ""
+            url: https://my415609-api.s4hana.cloud.sap
             destination: S4HANA-PRICING
         ui5:
           path:
