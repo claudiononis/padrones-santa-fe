@@ -79,6 +79,27 @@
 
     <f:content>
       <VBox class="sfContent sapUiResponsiveContentPadding">
+        <HBox wrap="Wrap" alignItems="Center" justifyContent="SpaceBetween" class="sfTabSummaryBar">
+          <HBox wrap="Wrap" alignItems="Center">
+            <ObjectStatus icon="sap-icon://table-view" text="{= ${app>/validRows} + ' registros' }" state="Information" class="sfSummaryPill"/>
+            <ObjectStatus icon="sap-icon://message-popup" text="{= ${app>/messages}.length + ' eventos' }" state="Information" class="sfSummaryPill"/>
+          </HBox>
+          <HBox wrap="Wrap" alignItems="Center" class="sfSummaryKpis">
+            <ObjectStatus icon="sap-icon://create" text="{= ${app>/createdCount} + ' creados' }" state="Success" class="sfSummaryPill"/>
+            <ObjectStatus icon="sap-icon://edit" text="{= ${app>/updatedCount} + ' actualizados' }" state="Information" class="sfSummaryPill"/>
+            <ObjectStatus
+              icon="sap-icon://error"
+              text="{= ${app>/processedErrorCount} + ' errores' }"
+              state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"
+              class="sfSummaryPill"/>
+            <ObjectStatus
+              icon="sap-icon://activity-individual"
+              text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
+              state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"
+              class="sfSummaryPill"/>
+          </HBox>
+        </HBox>
+
         <IconTabBar expandable="false" class="sapUiNoContentPadding sfContentTabs">
           <items>
             <IconTabFilter text="Registros" icon="sap-icon://table-view" count="{app>/validRows}">
@@ -194,47 +215,6 @@
                     </CustomListItem>
                   </List>
                 </ScrollContainer>
-              </VBox>
-            </IconTabFilter>
-            <IconTabFilter
-              text="Creados"
-              icon="sap-icon://create"
-              count="{app>/createdCount}">
-              <VBox class="sfResultCard sfKpiDetail">
-                <ObjectNumber number="{app>/createdCount}" state="Success" emphasized="true"/>
-                <Text text="Registros creados por el backend en SAP."/>
-              </VBox>
-            </IconTabFilter>
-            <IconTabFilter
-              text="Actualizados"
-              icon="sap-icon://edit"
-              count="{app>/updatedCount}">
-              <VBox class="sfResultCard sfKpiDetail">
-                <ObjectNumber number="{app>/updatedCount}" state="Information" emphasized="true"/>
-                <Text text="Registros actualizados por el backend en SAP."/>
-              </VBox>
-            </IconTabFilter>
-            <IconTabFilter
-              text="Errores"
-              icon="sap-icon://error"
-              count="{app>/processedErrorCount}">
-              <VBox class="sfResultCard sfKpiDetail">
-                <ObjectNumber
-                  number="{app>/processedErrorCount}"
-                  state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"
-                  emphasized="true"/>
-                <Text text="Errores reportados durante el procesamiento backend."/>
-              </VBox>
-            </IconTabFilter>
-            <IconTabFilter
-              text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
-              icon="sap-icon://activity-individual">
-              <VBox class="sfResultCard sfKpiDetail">
-                <ObjectStatus
-                  text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
-                  state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
-                <Text text="{path: 'app>/jobStartedAt', formatter: '.formatDateTime'}"/>
-                <Text text="{path: 'app>/jobFinishedAt', formatter: '.formatDateTime'}"/>
               </VBox>
             </IconTabFilter>
           </items>

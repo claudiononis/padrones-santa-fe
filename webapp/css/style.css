@@ -42,6 +42,22 @@
   margin-bottom: 2rem;
 }
 
+.sfTabSummaryBar {
+  background: var(--sapGroup_ContentBackground);
+  border: 1px solid var(--sapGroup_TitleBorderColor);
+  box-shadow: var(--sapContent_Shadow0);
+  padding: 0.75rem 1rem;
+}
+
+.sfSummaryKpis {
+  gap: 1rem;
+}
+
+.sfSummaryPill {
+  margin-right: 1rem;
+  white-space: nowrap;
+}
+
 .sfContentTabs .sapMITBContent {
   overflow: visible;
 }
