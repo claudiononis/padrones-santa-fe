@@ -82,63 +82,83 @@
         <IconTabBar expandable="false" class="sapUiNoContentPadding">
           <items>
             <IconTabFilter text="Registros" icon="sap-icon://table-view" count="{app>/validRows}">
-              <ScrollContainer
-                height="34rem"
-                vertical="true"
-                horizontal="false"
-                focusable="true"
-                class="sfTableScroll">
-                <Table
-                  id="recordsTable"
-                  mode="None"
-                  sticky="ColumnHeaders,HeaderToolbar"
-                  growing="true"
-                  growingScrollToLoad="true"
-                  growingThreshold="50"
-                  items="{app>/rows}"
-                  noDataText="Cargá un archivo del padrón para ver los registros válidos.">
-                  <headerToolbar>
-                    <OverflowToolbar>
-                      <Title text="Registros listos para procesar" level="H2"/>
-                      <ToolbarSpacer/>
-                      <ObjectStatus
-                        text="{= ${app>/validRows} + ' registros válidos' }"
-                        state="Success"/>
-                    </OverflowToolbar>
-                  </headerToolbar>
-                  <columns>
-                    <Column width="9rem">
-                      <Text text="CUIT"/>
-                    </Column>
-                    <Column width="6rem" hAlign="Center">
-                      <Text text="Tipo"/>
-                    </Column>
-                    <Column width="9rem" hAlign="End">
-                      <Text text="Alícuota Original"/>
-                    </Column>
-                    <Column width="9rem" hAlign="End">
-                      <Text text="Alícuota SAP"/>
-                    </Column>
-                    <Column minScreenWidth="Tablet" demandPopin="true">
-                      <Text text="Razón Social"/>
-                    </Column>
-                  </columns>
-                  <items>
-                    <ColumnListItem type="Inactive">
-                      <cells>
-                        <ObjectIdentifier title="{app>cuit}" text="{= ${app>customer} ? 'Cliente ' + ${app>customer} : '' }"/>
-                        <ObjectStatus
-                          text="{app>taxpayerType}"
-                          state="{= ${app>taxpayerType} === 'C' ? 'Warning' : 'Success' }"
-                          icon="{= ${app>taxpayerType} === 'C' ? 'sap-icon://process' : 'sap-icon://accept' }"/>
-                        <ObjectNumber number="{app>originalRate}" unit="%"/>
-                        <ObjectNumber number="{app>rate}" unit="%" emphasized="true"/>
-                        <Text text="{app>companyName}" wrapping="false"/>
-                      </cells>
-                    </ColumnListItem>
-                  </items>
-                </Table>
-              </ScrollContainer>
+              <VBox class="sfResultCard">
+                <OverflowToolbar class="sfResultToolbar">
+                  <Title text="Resultados de validación" level="H2"/>
+                  <ToolbarSpacer/>
+                  <ObjectStatus
+                    text="{= ${app>/validRows} + ' listos para procesar' }"
+                    state="Success"
+                    icon="sap-icon://sys-enter-2"/>
+                </OverflowToolbar>
+
+                <MessageStrip
+                  text="La alícuota SAP se calcula automáticamente: tipo C divide la alícuota original por 2; tipo D conserva el valor original."
+                  type="Information"
+                  showIcon="true"
+                  class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"/>
+
+                <ScrollContainer
+                  height="34rem"
+                  vertical="true"
+                  horizontal="false"
+                  focusable="true"
+                  class="sfTableScroll">
+                  <Table
+                    id="recordsTable"
+                    mode="None"
+                    sticky="ColumnHeaders"
+                    alternateRowColors="true"
+                    growing="true"
+                    growingScrollToLoad="true"
+                    growingThreshold="50"
+                    items="{app>/rows}"
+                    noDataText="Cargá un archivo del padrón para ver los registros válidos.">
+                    <columns>
+                      <Column>
+                        <Text text="Contribuyente"/>
+                      </Column>
+                      <Column width="8rem">
+                        <Text text="CUIT"/>
+                      </Column>
+                      <Column width="7rem" hAlign="Center">
+                        <Text text="Tipo"/>
+                      </Column>
+                      <Column width="10rem" hAlign="End">
+                        <Text text="Alícuota Original"/>
+                      </Column>
+                      <Column width="9rem" hAlign="End">
+                        <Text text="Alícuota SAP"/>
+                      </Column>
+                      <Column width="8rem" minScreenWidth="Desktop" demandPopin="true">
+                        <Text text="Cliente SAP"/>
+                      </Column>
+                    </columns>
+                    <items>
+                      <ColumnListItem
+                        type="Inactive"
+                        highlight="{= ${app>taxpayerType} === 'C' ? 'Warning' : 'Success' }">
+                        <cells>
+                          <ObjectIdentifier
+                            title="{app>companyName}"
+                            text="{= ${app>businessPartner} ? 'BP ' + ${app>businessPartner} : 'Business Partner validado' }"/>
+                          <Text text="{app>cuit}"/>
+                          <ObjectStatus
+                            text="{= ${app>taxpayerType} === 'C' ? 'Tipo C' : 'Tipo D' }"
+                            state="{= ${app>taxpayerType} === 'C' ? 'Warning' : 'Success' }"/>
+                          <ObjectNumber number="{app>originalRate}" unit="%"/>
+                          <ObjectNumber
+                            number="{app>rate}"
+                            unit="%"
+                            state="{= ${app>taxpayerType} === 'C' ? 'Warning' : 'Success' }"
+                            emphasized="true"/>
+                          <Text text="{app>customer}"/>
+                        </cells>
+                      </ColumnListItem>
+                    </items>
+                  </Table>
+                </ScrollContainer>
+              </VBox>
             </IconTabFilter>
 
             <IconTabFilter text="Log" icon="sap-icon://message-popup">

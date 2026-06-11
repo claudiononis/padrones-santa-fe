@@ -18,9 +18,20 @@
   background: var(--sapGroup_ContentBackground);
 }
 
+.sfResultCard {
+  background: var(--sapGroup_ContentBackground);
+  border: 1px solid var(--sapGroup_TitleBorderColor);
+  border-radius: 0.75rem;
+  box-shadow: var(--sapContent_Shadow0);
+  overflow: hidden;
+}
+
+.sfResultToolbar {
+  border-bottom: 1px solid var(--sapGroup_TitleBorderColor);
+}
+
 .sfTableScroll {
-  border-top: 1px solid var(--sapList_BorderColor);
-  border-bottom: 1px solid var(--sapList_BorderColor);
+  background: var(--sapList_Background);
 }
 
 @media (max-width: 700px) {
