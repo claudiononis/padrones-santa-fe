@@ -23,6 +23,13 @@ server:
       afterMiddleware: compression
       configuration:
         ignoreCertErrors: false
+        backend:
+          - path: /s4
+            pathReplace: /sap
+            destination: S4HANA-BP
+          - path: /pricing
+            pathReplace: /sap
+            destination: S4HANA-PRICING
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
