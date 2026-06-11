@@ -231,7 +231,7 @@ sap.ui.define([
       const oBpByCuit = new Map();
       const oCustomerByBp = new Map();
 
-      let sTaxUrl = "/s4/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartnerTaxNumber?$select=BusinessPartner,BPTaxNumber,BPTaxLongNumber&$format=json";
+      let sTaxUrl = "/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartnerTaxNumber?$select=BusinessPartner,BPTaxNumber,BPTaxLongNumber&$format=json";
 
       while (sTaxUrl) {
         const oResponse = await fetch(sTaxUrl, {
@@ -262,11 +262,11 @@ sap.ui.define([
         }.bind(this));
 
         sTaxUrl = oData && oData.d && oData.d.__next
-          ? oData.d.__next.replace(/^https?:\/\/[^/]+/, "/s4")
+          ? oData.d.__next.replace(/^https?:\/\/[^/]+/, "")
           : "";
       }
 
-      let sBpUrl = "/s4/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$select=BusinessPartner,Customer&$format=json";
+      let sBpUrl = "/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$select=BusinessPartner,Customer&$format=json";
 
       while (sBpUrl) {
         const oResponse = await fetch(sBpUrl, {
@@ -290,7 +290,7 @@ sap.ui.define([
         });
 
         sBpUrl = oData && oData.d && oData.d.__next
-          ? oData.d.__next.replace(/^https?:\/\/[^/]+/, "/s4")
+          ? oData.d.__next.replace(/^https?:\/\/[^/]+/, "")
           : "";
       }
 

@@ -17,6 +17,13 @@
       "csrfProtection": false
     },
     {
+      "source": "^/sap/(.*)$",
+      "target": "/sap/$1",
+      "destination": "S4HANA-BP",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    },
+    {
       "source": "^/s4/(.*)$",
       "target": "/$1",
       "destination": "S4HANA-BP",
