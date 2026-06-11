@@ -20,7 +20,10 @@ sap.ui.define([
     jobId: "",
     jobStatus: "",
     jobStartedAt: "",
-    jobFinishedAt: ""
+    jobFinishedAt: "",
+    createdCount: 0,
+    updatedCount: 0,
+    processedErrorCount: 0
   };
 
   return Controller.extend("padones.santa.fe.controller.App", {
@@ -310,6 +313,9 @@ sap.ui.define([
       this._stopJobPolling();
 
       oModel.setProperty("/busy", true);
+      oModel.setProperty("/createdCount", 0);
+      oModel.setProperty("/updatedCount", 0);
+      oModel.setProperty("/processedErrorCount", 0);
       this._addMessage({
         type: "Information",
         text: "Enviando " + aRows.length + " registros al backend para procesamiento."
@@ -393,6 +399,9 @@ sap.ui.define([
         oModel.setProperty("/totalRows", oJob.totalRows || oModel.getProperty("/totalRows") || 0);
         oModel.setProperty("/validRows", oJob.validRows || oModel.getProperty("/validRows") || 0);
         oModel.setProperty("/errorRows", oJob.errorCount || 0);
+        oModel.setProperty("/createdCount", oJob.createdCount || 0);
+        oModel.setProperty("/updatedCount", oJob.updatedCount || 0);
+        oModel.setProperty("/processedErrorCount", oJob.errorCount || 0);
         this._addMessage(this._buildJobMessage(oJob), true);
 
         if (bFinished) {
@@ -495,6 +504,10 @@ sap.ui.define([
           timestamp: oMessage.timestamp || this._formatDateTime(new Date().toISOString())
         };
       }.bind(this));
+    },
+
+    formatDateTime: function (sValue) {
+      return this._formatDateTime(sValue);
     },
 
     _formatDateTime: function (sValue) {

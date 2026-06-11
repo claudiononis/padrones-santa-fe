@@ -40,6 +40,20 @@
   border-bottom: 1px solid var(--sapGroup_TitleBorderColor);
 }
 
+.sfJobSummary {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sfProcessKpis {
+  gap: 1rem;
+}
+
+.sfProcessKpi {
+  min-width: 8rem;
+  padding: 0.25rem 0.5rem;
+}
+
 .sfTableScroll {
   background: var(--sapList_Background);
 }

@@ -79,6 +79,49 @@
 
     <f:content>
       <VBox class="sfContent sapUiResponsiveContentPadding">
+        <VBox
+          class="sfResultCard sfJobSummary sapUiSmallMarginBottom"
+          visible="{= !!${app>/jobId} }">
+          <OverflowToolbar class="sfResultToolbar">
+            <Title text="Resultado del procesamiento" level="H2"/>
+            <ToolbarSpacer/>
+            <ObjectStatus
+              text="{app>/jobStatus}"
+              state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
+          </OverflowToolbar>
+          <HBox wrap="Wrap" class="sfProcessKpis sapUiSmallMargin">
+            <VBox class="sfProcessKpi">
+              <Label text="Creados"/>
+              <ObjectNumber
+                number="{app>/createdCount}"
+                state="Success"
+                emphasized="true"/>
+            </VBox>
+            <VBox class="sfProcessKpi">
+              <Label text="Actualizados"/>
+              <ObjectNumber
+                number="{app>/updatedCount}"
+                state="Information"
+                emphasized="true"/>
+            </VBox>
+            <VBox class="sfProcessKpi">
+              <Label text="Errores"/>
+              <ObjectNumber
+                number="{app>/processedErrorCount}"
+                state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"
+                emphasized="true"/>
+            </VBox>
+            <VBox class="sfProcessKpi">
+              <Label text="Inicio"/>
+              <Text text="{path: 'app>/jobStartedAt', formatter: '.formatDateTime'}"/>
+            </VBox>
+            <VBox class="sfProcessKpi">
+              <Label text="Fin"/>
+              <Text text="{path: 'app>/jobFinishedAt', formatter: '.formatDateTime'}"/>
+            </VBox>
+          </HBox>
+        </VBox>
+
         <IconTabBar expandable="false" class="sapUiNoContentPadding">
           <items>
             <IconTabFilter text="Registros" icon="sap-icon://table-view" count="{app>/validRows}">
