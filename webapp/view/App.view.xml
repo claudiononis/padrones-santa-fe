@@ -125,7 +125,7 @@
                   class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"/>
 
                 <ScrollContainer
-                  height="22rem"
+                  height="18rem"
                   vertical="true"
                   horizontal="false"
                   focusable="true"
@@ -198,7 +198,7 @@
                     icon="sap-icon://activity-items"/>
                 </OverflowToolbar>
                 <ScrollContainer
-                  height="16rem"
+                  height="14rem"
                   vertical="true"
                   horizontal="false"
                   focusable="true">
