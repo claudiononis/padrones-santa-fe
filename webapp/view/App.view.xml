@@ -55,31 +55,50 @@
         <Text text="{= ${app>/messages}.length + ' eventos' }"/>
         <Text text="Log" class="sfSectionTileLabel"/>
       </VBox>
-      <VBox class="sfKpiMiniCard">
-        <ObjectStatus icon="sap-icon://document-text" text="{app>/totalRows}" state="Information"/>
-        <Text text="Líneas"/>
+      <VBox alignItems="Center" class="sfSectionTile sfSectionTileReadonly">
+        <Button
+          icon="sap-icon://document-text"
+          enabled="false"
+          type="Transparent"
+          class="sfSectionTileIcon"/>
+        <Text text="{app>/totalRows}"/>
+        <Text text="Líneas" class="sfSectionTileLabel"/>
       </VBox>
-      <VBox class="sfKpiMiniCard">
-        <ObjectStatus icon="sap-icon://create" text="{app>/createdCount}" state="Success"/>
-        <Text text="Creados"/>
+      <VBox alignItems="Center" class="sfSectionTile sfSectionTileReadonly">
+        <Button
+          icon="sap-icon://create"
+          enabled="false"
+          type="Transparent"
+          class="sfSectionTileIcon"/>
+        <Text text="{app>/createdCount}"/>
+        <Text text="Creados" class="sfSectionTileLabel"/>
       </VBox>
-      <VBox class="sfKpiMiniCard">
-        <ObjectStatus icon="sap-icon://edit" text="{app>/updatedCount}" state="Information"/>
-        <Text text="Actualizados"/>
+      <VBox alignItems="Center" class="sfSectionTile sfSectionTileReadonly">
+        <Button
+          icon="sap-icon://edit"
+          enabled="false"
+          type="Transparent"
+          class="sfSectionTileIcon"/>
+        <Text text="{app>/updatedCount}"/>
+        <Text text="Actualiza..." class="sfSectionTileLabel"/>
       </VBox>
-      <VBox class="sfKpiMiniCard">
-        <ObjectStatus
+      <VBox alignItems="Center" class="sfSectionTile sfSectionTileReadonly">
+        <Button
           icon="sap-icon://error"
-          text="{app>/processedErrorCount}"
-          state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"/>
-        <Text text="Errores"/>
+          enabled="false"
+          type="Transparent"
+          class="sfSectionTileIcon"/>
+        <Text text="{app>/processedErrorCount}"/>
+        <Text text="Errores" class="sfSectionTileLabel"/>
       </VBox>
-      <VBox class="sfKpiMiniCard sfKpiStatusCard">
-        <ObjectStatus
+      <VBox alignItems="Center" class="sfSectionTile sfSectionTileReadonly sfSectionTileWide">
+        <Button
           icon="sap-icon://activity-individual"
-          text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
-          state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
-        <Text text="Estado"/>
+          enabled="false"
+          type="Transparent"
+          class="sfSectionTileIcon"/>
+        <Text text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"/>
+        <Text text="Sin proce..." class="sfSectionTileLabel"/>
       </VBox>
     </HBox>
 
