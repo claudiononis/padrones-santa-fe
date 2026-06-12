@@ -5,7 +5,12 @@
   xmlns:f="sap.f"
   xmlns:core="sap.ui.core"
   xmlns:unified="sap.ui.unified">
-  <f:DynamicPage id="dynamicPage" class="sapUiSizeCompact">
+  <f:DynamicPage
+    id="dynamicPage"
+    class="sapUiSizeCompact"
+    headerExpanded="true"
+    preserveHeaderStateOnScroll="true"
+    toggleHeaderOnTitleClick="false">
     <f:title>
       <f:DynamicPageTitle>
         <f:heading>
