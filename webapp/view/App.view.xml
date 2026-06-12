@@ -3,7 +3,7 @@
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
   xmlns:unified="sap.ui.unified">
-  <VBox class="sfOriginalPage sapUiSmallMargin">
+  <VBox class="sfOriginalPage">
     <HBox alignItems="Center" justifyContent="SpaceBetween" class="sfOriginalTitleRow">
       <VBox>
         <Title text="Padrón Santa Fe - Percepciones IIBB" level="H1"/>
