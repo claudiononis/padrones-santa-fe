@@ -8,11 +8,7 @@
     <f:ShellBar
       title="Padrón Santa Fe - Percepciones IIBB"
       showCopilot="false"
-      showProductSwitcher="false">
-      <f:profile>
-        <Avatar initials="DU" displaySize="XS"/>
-      </f:profile>
-    </f:ShellBar>
+      showProductSwitcher="false"/>
 
     <VBox class="sfPageBody">
     <HBox alignItems="Center" justifyContent="SpaceBetween" class="sfOriginalTitleRow">
