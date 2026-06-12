@@ -1,18 +1,9 @@
 html {
-  scrollbar-gutter: stable;
-  height: 100%;
+  scrollbar-gutter: stable both-edges;
 }
 
 body {
-  height: 100%;
-  overflow-y: hidden;
-}
-
-html body,
-html body > div,
-#container,
-#container-uiarea {
-  height: 100%;
+  overflow-y: auto;
 }
 
 .sfHeaderContent {
@@ -29,8 +20,6 @@ html body > div,
 
 .sfContent {
   box-sizing: border-box;
-  max-height: calc(100vh - 24rem);
-  overflow-y: auto;
   padding-bottom: 2rem;
 }
 
