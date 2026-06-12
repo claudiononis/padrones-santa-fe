@@ -37,23 +37,40 @@
         icon="sap-icon://table-view"
         text="{= ${app>/validRows} + ' registros' }"
         type="{= ${app>/activeSection} === 'records' ? 'Emphasized' : 'Transparent' }"
+        class="sfKpiCardButton"
         press=".onShowRecords"/>
       <Button
         icon="sap-icon://message-popup"
         text="{= ${app>/messages}.length + ' eventos' }"
         type="{= ${app>/activeSection} === 'log' ? 'Emphasized' : 'Transparent' }"
+        class="sfKpiCardButton"
         press=".onShowLog"/>
-      <ObjectStatus icon="sap-icon://document-text" text="{= ${app>/totalRows} + ' líneas' }" state="Information"/>
-      <ObjectStatus icon="sap-icon://create" text="{= ${app>/createdCount} + ' creados' }" state="Success"/>
-      <ObjectStatus icon="sap-icon://edit" text="{= ${app>/updatedCount} + ' actualizados' }" state="Information"/>
-      <ObjectStatus
-        icon="sap-icon://error"
-        text="{= ${app>/processedErrorCount} + ' errores' }"
-        state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"/>
-      <ObjectStatus
-        icon="sap-icon://activity-individual"
-        text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
-        state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
+      <VBox class="sfKpiMiniCard">
+        <ObjectStatus icon="sap-icon://document-text" text="{app>/totalRows}" state="Information"/>
+        <Text text="Líneas"/>
+      </VBox>
+      <VBox class="sfKpiMiniCard">
+        <ObjectStatus icon="sap-icon://create" text="{app>/createdCount}" state="Success"/>
+        <Text text="Creados"/>
+      </VBox>
+      <VBox class="sfKpiMiniCard">
+        <ObjectStatus icon="sap-icon://edit" text="{app>/updatedCount}" state="Information"/>
+        <Text text="Actualizados"/>
+      </VBox>
+      <VBox class="sfKpiMiniCard">
+        <ObjectStatus
+          icon="sap-icon://error"
+          text="{app>/processedErrorCount}"
+          state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"/>
+        <Text text="Errores"/>
+      </VBox>
+      <VBox class="sfKpiMiniCard sfKpiStatusCard">
+        <ObjectStatus
+          icon="sap-icon://activity-individual"
+          text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
+          state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
+        <Text text="Estado"/>
+      </VBox>
     </HBox>
 
     <VBox visible="{= ${app>/activeSection} === 'records' }" class="sfOriginalPanel">

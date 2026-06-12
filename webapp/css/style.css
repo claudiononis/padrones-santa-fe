@@ -23,6 +23,32 @@
   padding: 0.625rem 0.75rem;
 }
 
+.sfKpiCardButton .sapMBtnInner {
+  min-width: 8rem;
+}
+
+.sfKpiMiniCard {
+  background: var(--sapTile_Background);
+  border: 1px solid var(--sapTile_BorderColor);
+  border-radius: 0.5rem;
+  box-shadow: var(--sapContent_Shadow0);
+  box-sizing: border-box;
+  gap: 0.125rem;
+  justify-content: center;
+  min-height: 3.25rem;
+  min-width: 7rem;
+  padding: 0.375rem 0.625rem;
+}
+
+.sfKpiMiniCard .sapMText {
+  color: var(--sapContent_LabelColor);
+  font-size: 0.75rem;
+}
+
+.sfKpiStatusCard {
+  min-width: 9rem;
+}
+
 .sfOriginalPanel {
   background: var(--sapList_Background);
   border: 1px solid var(--sapGroup_TitleBorderColor);
