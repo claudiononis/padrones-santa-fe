@@ -2,24 +2,23 @@
   controllerName="padones.santa.fe.controller.App"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
+  xmlns:f="sap.f"
   xmlns:unified="sap.ui.unified">
   <VBox class="sfOriginalPage">
-    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sfShellBar">
-      <HBox alignItems="Center" class="sfShellLeft">
-        <Text text="SAP" class="sfSapLogo"/>
-        <Title text="Padrón Santa Fe - Percepciones IIBB" level="H2" class="sfShellTitle"/>
-      </HBox>
-      <Avatar initials="DU" displaySize="XS"/>
-    </HBox>
+    <f:ShellBar
+      title="Padrón Santa Fe - Percepciones IIBB"
+      showCopilot="false"
+      showProductSwitcher="false">
+      <f:profile>
+        <Avatar initials="DU" displaySize="XS"/>
+      </f:profile>
+    </f:ShellBar>
 
     <VBox class="sfPageBody">
     <HBox alignItems="Center" justifyContent="SpaceBetween" class="sfOriginalTitleRow">
-      <VBox>
-        <Title text="Padrón Santa Fe - Percepciones IIBB" level="H1"/>
-        <ObjectStatus
-          text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Listo para cargar el padrón de percepciones' }"
-          state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
-      </VBox>
+      <ObjectStatus
+        text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Listo para cargar el padrón de percepciones' }"
+        state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
       <Button icon="sap-icon://refresh" text="Limpiar" press=".onClear"/>
     </HBox>
 
