@@ -30,6 +30,7 @@ sap.ui.define([
   return Controller.extend("padones.santa.fe.controller.App", {
     onInit: function () {
       this._jobPollTimer = null;
+      this._completionNotifiedJobId = "";
       this.getView().setModel(new JSONModel({ ...INITIAL_STATE }), "app");
 
       const sLastJobId = window.localStorage.getItem("padonesSantaFeLastJobId");
@@ -41,7 +42,7 @@ sap.ui.define([
           text: "Consultando estado del ultimo job..."
         }]);
 
-        this._pollJobStatus(sLastJobId);
+        this._pollJobStatus(sLastJobId, false);
       }
     },
 
@@ -370,10 +371,10 @@ sap.ui.define([
     },
 
     _startJobPolling: function (sJobId) {
-      this._pollJobStatus(sJobId);
+      this._pollJobStatus(sJobId, true);
 
       this._jobPollTimer = setInterval(function () {
-        this._pollJobStatus(sJobId);
+        this._pollJobStatus(sJobId, true);
       }.bind(this), 5000);
     },
 
@@ -384,7 +385,7 @@ sap.ui.define([
       }
     },
 
-    _pollJobStatus: async function (sJobId) {
+    _pollJobStatus: async function (sJobId, bNotifyCompletion) {
       const oModel = this.getView().getModel("app");
 
       try {
@@ -416,13 +417,18 @@ sap.ui.define([
         if (bFinished) {
           this._stopJobPolling();
           oModel.setProperty("/busy", false);
+          window.localStorage.removeItem("padonesSantaFeLastJobId");
 
-          if (oJob.status === "FINALIZADO") {
-            MessageBox.success(oJob.message || "Job finalizado correctamente.");
-          } else if (oJob.status === "FINALIZADO_CON_ERRORES") {
-            MessageBox.warning(oJob.message || "Job finalizado con errores.");
-          } else {
-            MessageBox.error(oJob.message || "El job finalizo con error.");
+          if (bNotifyCompletion && this._completionNotifiedJobId !== sJobId) {
+            this._completionNotifiedJobId = sJobId;
+
+            if (oJob.status === "FINALIZADO") {
+              MessageToast.show(oJob.message || "Job finalizado correctamente.");
+            } else if (oJob.status === "FINALIZADO_CON_ERRORES") {
+              MessageToast.show(oJob.message || "Job finalizado con errores.");
+            } else {
+              MessageBox.error(oJob.message || "El job finalizo con error.");
+            }
           }
         }
       } catch (oError) {
