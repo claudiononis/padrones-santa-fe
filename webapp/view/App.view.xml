@@ -28,49 +28,40 @@
     <f:header>
       <f:DynamicPageHeader pinnable="true">
         <VBox class="sfHeaderContent">
-          <MessageStrip
-            text="Subí el archivo mensual del padrón de percepciones de Santa Fe. Se calculará la alícuota SAP según el tipo de contribuyente: C divide por 2, D conserva la alícuota original."
-            type="Information"
-            showIcon="true"
-            class="sapUiSmallMarginBottom"/>
-
-          <HBox wrap="Wrap" alignItems="End" justifyContent="SpaceBetween">
-            <HBox wrap="Wrap" alignItems="End">
-              <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
-                <Label text="Archivo del padrón" labelFor="fileUploader"/>
-                <unified:FileUploader
-                  id="fileUploader"
-                  width="24rem"
-                  sameFilenameAllowed="true"
-                  fileType="txt,csv"
-                  change=".onFileChange"
-                placeholder="Seleccionar archivo de percepciones"/>
-              </VBox>
+          <HBox wrap="Wrap" alignItems="Center" justifyContent="SpaceBetween" class="sfUploadSummaryBar">
+            <HBox wrap="Wrap" alignItems="Center" class="sfUploadGroup">
+              <Label text="Archivo" labelFor="fileUploader" class="sapUiTinyMarginEnd"/>
+              <unified:FileUploader
+                id="fileUploader"
+                width="24rem"
+                sameFilenameAllowed="true"
+                fileType="txt,csv"
+                change=".onFileChange"
+                placeholder="Seleccionar archivo de percepciones"
+                class="sapUiSmallMarginEnd"/>
               <Button
                 text="Preparar carga"
                 icon="sap-icon://upload-to-cloud"
                 type="Emphasized"
                 enabled="{= ${app>/validRows} > 0 }"
-                press=".onPrepareUpload"
-                class="sapUiTinyMarginBottom"/>
+                press=".onPrepareUpload"/>
             </HBox>
-            <HBox wrap="Wrap" class="sfKpiStrip">
-              <VBox class="sfKpiItem sapUiTinyMarginBegin sapUiTinyMarginBottom">
-                <Label text="Líneas"/>
-                <ObjectNumber number="{app>/totalRows}" state="Information"/>
-              </VBox>
-              <VBox class="sfKpiItem sapUiTinyMarginBegin sapUiTinyMarginBottom">
-                <Label text="Válidos"/>
-                <ObjectNumber number="{app>/validRows}" state="Success"/>
-              </VBox>
-              <VBox class="sfKpiItem sapUiTinyMarginBegin sapUiTinyMarginBottom">
-                <Label text="Advertencias"/>
-                <ObjectNumber number="{app>/warningRows}" state="Warning"/>
-              </VBox>
-              <VBox class="sfKpiItem sapUiTinyMarginBegin sapUiTinyMarginBottom">
-                <Label text="Errores"/>
-                <ObjectNumber number="{app>/errorRows}" state="Error"/>
-              </VBox>
+            <HBox wrap="Wrap" alignItems="Center" class="sfSummaryKpis">
+              <ObjectStatus icon="sap-icon://document-text" text="{= ${app>/totalRows} + ' líneas' }" state="Information" class="sfSummaryPill"/>
+              <ObjectStatus icon="sap-icon://table-view" text="{= ${app>/validRows} + ' registros' }" state="Success" class="sfSummaryPill"/>
+              <ObjectStatus icon="sap-icon://message-popup" text="{= ${app>/messages}.length + ' eventos' }" state="Information" class="sfSummaryPill"/>
+              <ObjectStatus icon="sap-icon://create" text="{= ${app>/createdCount} + ' creados' }" state="Success" class="sfSummaryPill"/>
+              <ObjectStatus icon="sap-icon://edit" text="{= ${app>/updatedCount} + ' actualizados' }" state="Information" class="sfSummaryPill"/>
+              <ObjectStatus
+                icon="sap-icon://error"
+                text="{= ${app>/processedErrorCount} + ' errores' }"
+                state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"
+                class="sfSummaryPill"/>
+              <ObjectStatus
+                icon="sap-icon://activity-individual"
+                text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
+                state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"
+                class="sfSummaryPill"/>
             </HBox>
           </HBox>
         </VBox>
@@ -79,27 +70,6 @@
 
     <f:content>
       <VBox class="sfContent sapUiResponsiveContentPadding">
-        <HBox wrap="Wrap" alignItems="Center" justifyContent="SpaceBetween" class="sfTabSummaryBar">
-          <HBox wrap="Wrap" alignItems="Center">
-            <ObjectStatus icon="sap-icon://table-view" text="{= ${app>/validRows} + ' registros' }" state="Information" class="sfSummaryPill"/>
-            <ObjectStatus icon="sap-icon://message-popup" text="{= ${app>/messages}.length + ' eventos' }" state="Information" class="sfSummaryPill"/>
-          </HBox>
-          <HBox wrap="Wrap" alignItems="Center" class="sfSummaryKpis">
-            <ObjectStatus icon="sap-icon://create" text="{= ${app>/createdCount} + ' creados' }" state="Success" class="sfSummaryPill"/>
-            <ObjectStatus icon="sap-icon://edit" text="{= ${app>/updatedCount} + ' actualizados' }" state="Information" class="sfSummaryPill"/>
-            <ObjectStatus
-              icon="sap-icon://error"
-              text="{= ${app>/processedErrorCount} + ' errores' }"
-              state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"
-              class="sfSummaryPill"/>
-            <ObjectStatus
-              icon="sap-icon://activity-individual"
-              text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
-              state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"
-              class="sfSummaryPill"/>
-          </HBox>
-        </HBox>
-
         <IconTabBar expandable="false" class="sapUiNoContentPadding sfContentTabs">
           <items>
             <IconTabFilter text="Registros" icon="sap-icon://table-view" count="{app>/validRows}">
@@ -112,12 +82,6 @@
                     state="Success"
                     icon="sap-icon://sys-enter-2"/>
                 </OverflowToolbar>
-
-                <MessageStrip
-                  text="La alícuota SAP se calcula automáticamente: tipo C divide la alícuota original por 2; tipo D conserva el valor original."
-                  type="Information"
-                  showIcon="true"
-                  class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"/>
 
                 <ScrollContainer
                   height="16rem"

@@ -2,6 +2,18 @@
   width: 100%;
 }
 
+.sfUploadSummaryBar {
+  background: var(--sapGroup_ContentBackground);
+  border: 1px solid var(--sapGroup_TitleBorderColor);
+  border-radius: 0.5rem;
+  box-shadow: var(--sapContent_Shadow0);
+  padding: 0.5rem 0.75rem;
+}
+
+.sfUploadGroup {
+  gap: 0.25rem;
+}
+
 .sfKpiStrip {
   justify-content: flex-end;
 }
@@ -13,7 +25,7 @@
 .sfContent {
   box-sizing: border-box;
   min-height: 100%;
-  padding-top: 0.5rem;
+  padding-top: 0.25rem;
   padding-bottom: 1rem;
 }
 
@@ -40,7 +52,7 @@
 }
 
 .sfContentTabs {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .sfTabSummaryBar {
@@ -52,6 +64,7 @@
 
 .sfSummaryKpis {
   gap: 0.5rem;
+  justify-content: flex-end;
 }
 
 .sfSummaryPill {
