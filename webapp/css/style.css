@@ -25,8 +25,11 @@
 
 .sfSectionTile {
   border-bottom: 0.1875rem solid transparent;
+  box-sizing: border-box;
+  height: 5rem;
   min-width: 5.25rem;
-  padding: 0.25rem 0.5rem 0.375rem;
+  padding: 0.25rem 0.5rem 0.25rem;
+  position: relative;
 }
 
 .sfSectionTileActive {
@@ -54,8 +57,22 @@
   max-height: 3rem;
 }
 
+.sfSectionTileCount {
+  background: var(--sapGroup_ContentBackground);
+  border-radius: 999px;
+  font-weight: 400;
+  line-height: 1rem;
+  min-width: 1rem;
+  padding: 0 0.125rem;
+  position: absolute;
+  right: 0.625rem;
+  text-align: center;
+  top: 0.375rem;
+}
+
 .sfSectionTileLabel {
   font-weight: 700;
+  margin-top: 0.25rem;
 }
 
 .sfOriginalPanel {

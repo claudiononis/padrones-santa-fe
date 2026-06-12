@@ -41,7 +41,7 @@
           type="{= ${app>/activeSection} === 'records' ? 'Emphasized' : 'Transparent' }"
           class="sfSectionTileIcon"
           press=".onShowRecords"/>
-        <Text text="{= ${app>/validRows} + ' registros' }"/>
+        <Text text="{app>/validRows}" class="sfSectionTileCount"/>
         <Text text="Registros" class="sfSectionTileLabel"/>
       </VBox>
       <VBox
@@ -52,7 +52,7 @@
           type="{= ${app>/activeSection} === 'log' ? 'Emphasized' : 'Transparent' }"
           class="sfSectionTileIcon"
           press=".onShowLog"/>
-        <Text text="{= ${app>/messages}.length + ' eventos' }"/>
+        <Text text="{= ${app>/messages}.length }" class="sfSectionTileCount"/>
         <Text text="Log" class="sfSectionTileLabel"/>
       </VBox>
       <VBox alignItems="Center" class="sfSectionTile sfSectionTileReadonly">
@@ -61,7 +61,7 @@
           enabled="false"
           type="Transparent"
           class="sfSectionTileIcon"/>
-        <Text text="{app>/totalRows}"/>
+        <Text text="{app>/totalRows}" class="sfSectionTileCount"/>
         <Text text="Líneas" class="sfSectionTileLabel"/>
       </VBox>
       <VBox alignItems="Center" class="sfSectionTile sfSectionTileReadonly">
@@ -70,7 +70,7 @@
           enabled="false"
           type="Transparent"
           class="sfSectionTileIcon"/>
-        <Text text="{app>/createdCount}"/>
+        <Text text="{app>/createdCount}" class="sfSectionTileCount"/>
         <Text text="Creados" class="sfSectionTileLabel"/>
       </VBox>
       <VBox alignItems="Center" class="sfSectionTile sfSectionTileReadonly">
@@ -79,7 +79,7 @@
           enabled="false"
           type="Transparent"
           class="sfSectionTileIcon"/>
-        <Text text="{app>/updatedCount}"/>
+        <Text text="{app>/updatedCount}" class="sfSectionTileCount"/>
         <Text text="Actualiza..." class="sfSectionTileLabel"/>
       </VBox>
       <VBox alignItems="Center" class="sfSectionTile sfSectionTileReadonly">
@@ -88,7 +88,7 @@
           enabled="false"
           type="Transparent"
           class="sfSectionTileIcon"/>
-        <Text text="{app>/processedErrorCount}"/>
+        <Text text="{app>/processedErrorCount}" class="sfSectionTileCount"/>
         <Text text="Errores" class="sfSectionTileLabel"/>
       </VBox>
       <VBox alignItems="Center" class="sfSectionTile sfSectionTileReadonly sfSectionTileWide">
@@ -97,8 +97,7 @@
           enabled="false"
           type="Transparent"
           class="sfSectionTileIcon"/>
-        <Text text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"/>
-        <Text text="Sin proce..." class="sfSectionTileLabel"/>
+        <Text text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin proce...' }" class="sfSectionTileLabel"/>
       </VBox>
     </HBox>
 
