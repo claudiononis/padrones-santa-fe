@@ -1,17 +1,40 @@
 ﻿.sfOriginalPage {
+  background: var(--sapBackgroundColor);
   gap: 0.75rem;
+  min-height: calc(100vh - 2rem);
 }
 
 .sfOriginalTitleRow {
   margin-bottom: 0.25rem;
+  padding: 0.75rem 1rem;
 }
 
 .sfOriginalUploadRow,
 .sfOriginalStatusRow {
+  background: var(--sapGroup_ContentBackground);
+  border: 1px solid var(--sapGroup_TitleBorderColor);
+  border-radius: 0.5rem;
+  box-shadow: var(--sapContent_Shadow0);
   gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
 }
 
 .sfOriginalPanel {
-  border: 1px solid var(--sapList_BorderColor);
   background: var(--sapList_Background);
+  border: 1px solid var(--sapGroup_TitleBorderColor);
+  border-radius: 0.75rem;
+  box-shadow: var(--sapContent_Shadow0);
+  overflow: hidden;
+}
+
+.sfOriginalPanel .sapMTB {
+  border-bottom: 1px solid var(--sapGroup_TitleBorderColor);
+}
+
+.sfOriginalPanel .sapMListTblHeaderCell {
+  background: var(--sapList_HeaderBackground);
+}
+
+.sfOriginalPanel .sapMListTblRow:nth-child(even) {
+  background: var(--sapList_AlternatingBackground);
 }
