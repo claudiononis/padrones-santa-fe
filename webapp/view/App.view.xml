@@ -1,155 +1,137 @@
-<mvc:View
+﻿<mvc:View
   controllerName="padones.santa.fe.controller.App"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
-  xmlns:f="sap.f"
-  xmlns:core="sap.ui.core"
   xmlns:unified="sap.ui.unified">
-  <f:DynamicPage id="dynamicPage" class="sapUiSizeCompact">
-    <f:title>
-      <f:DynamicPageTitle>
-        <f:heading>
-          <Title text="Padrón Santa Fe - Percepciones IIBB" level="H1"/>
-        </f:heading>
-        <f:expandedContent>
-          <ObjectStatus
-            text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Listo para cargar el padrón de percepciones' }"
-            state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
-        </f:expandedContent>
-        <f:snappedContent>
-          <Text text="Carga y procesamiento de alícuotas de percepción"/>
-        </f:snappedContent>
-        <f:actions>
-          <Button icon="sap-icon://refresh" text="Limpiar" press=".onClear"/>
-        </f:actions>
-      </f:DynamicPageTitle>
-    </f:title>
-
-    <f:header>
-      <f:DynamicPageHeader pinnable="true">
-        <VBox class="sfHeaderContent">
-          <MessageStrip
-            text="Subí el archivo mensual del padrón de percepciones de Santa Fe. Se calculará la alícuota SAP según el tipo de contribuyente: C divide por 2, D conserva la alícuota original."
-            type="Information"
-            showIcon="true"
-            class="sapUiSmallMarginBottom"/>
-
-          <HBox wrap="Wrap" alignItems="End" justifyContent="SpaceBetween">
-            <HBox wrap="Wrap" alignItems="End">
-              <VBox class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
-                <Label text="Archivo del padrón" labelFor="fileUploader"/>
-                <unified:FileUploader
-                  id="fileUploader"
-                  width="24rem"
-                  sameFilenameAllowed="true"
-                  fileType="txt,csv"
-                  change=".onFileChange"
-                placeholder="Seleccionar archivo de percepciones"/>
-              </VBox>
-              <Button
-                text="Preparar carga"
-                icon="sap-icon://upload-to-cloud"
-                type="Emphasized"
-                enabled="{= ${app>/validRows} > 0 }"
-                press=".onPrepareUpload"
-                class="sapUiTinyMarginBottom"/>
-            </HBox>
-            <HBox wrap="Wrap" class="sfKpiStrip">
-              <VBox class="sfKpiItem sapUiTinyMarginBegin sapUiTinyMarginBottom">
-                <Label text="Líneas"/>
-                <ObjectNumber number="{app>/totalRows}" state="Information"/>
-              </VBox>
-              <VBox class="sfKpiItem sapUiTinyMarginBegin sapUiTinyMarginBottom">
-                <Label text="Válidos"/>
-                <ObjectNumber number="{app>/validRows}" state="Success"/>
-              </VBox>
-              <VBox class="sfKpiItem sapUiTinyMarginBegin sapUiTinyMarginBottom">
-                <Label text="Advertencias"/>
-                <ObjectNumber number="{app>/warningRows}" state="Warning"/>
-              </VBox>
-              <VBox class="sfKpiItem sapUiTinyMarginBegin sapUiTinyMarginBottom">
-                <Label text="Errores"/>
-                <ObjectNumber number="{app>/errorRows}" state="Error"/>
-              </VBox>
-            </HBox>
-          </HBox>
-        </VBox>
-      </f:DynamicPageHeader>
-    </f:header>
-
-    <f:content>
-      <VBox class="sfContent sapUiResponsiveContentPadding">
-        <IconTabBar expandable="false" class="sapUiNoContentPadding">
-          <items>
-            <IconTabFilter text="Registros" icon="sap-icon://table-view" count="{app>/validRows}">
-              <Table
-                id="recordsTable"
-                mode="None"
-                sticky="ColumnHeaders,HeaderToolbar"
-                growing="true"
-                growingThreshold="50"
-                items="{app>/rows}"
-                noDataText="Cargá un archivo del padrón para ver los registros válidos.">
-                <headerToolbar>
-                  <OverflowToolbar>
-                    <Title text="Registros listos para procesar" level="H2"/>
-                    <ToolbarSpacer/>
-                    <ObjectStatus
-                      text="{= ${app>/validRows} + ' registros válidos' }"
-                      state="Success"/>
-                  </OverflowToolbar>
-                </headerToolbar>
-                <columns>
-                  <Column width="9rem">
-                    <Text text="CUIT"/>
-                  </Column>
-                  <Column width="6rem" hAlign="Center">
-                    <Text text="Tipo"/>
-                  </Column>
-                  <Column width="9rem" hAlign="End">
-                    <Text text="Alícuota Original"/>
-                  </Column>
-                  <Column width="9rem" hAlign="End">
-                    <Text text="Alícuota SAP"/>
-                  </Column>
-                  <Column minScreenWidth="Tablet" demandPopin="true">
-                    <Text text="Razón Social"/>
-                  </Column>
-                </columns>
-                <items>
-                  <ColumnListItem type="Inactive">
-                    <cells>
-                      <ObjectIdentifier title="{app>cuit}" text="{= ${app>customer} ? 'Cliente ' + ${app>customer} : '' }"/>
-                      <ObjectStatus
-                        text="{app>taxpayerType}"
-                        state="{= ${app>taxpayerType} === 'C' ? 'Warning' : 'Success' }"
-                        icon="{= ${app>taxpayerType} === 'C' ? 'sap-icon://process' : 'sap-icon://accept' }"/>
-                      <ObjectNumber number="{app>originalRate}" unit="%"/>
-                      <ObjectNumber number="{app>rate}" unit="%" emphasized="true"/>
-                      <Text text="{app>companyName}" wrapping="false"/>
-                    </cells>
-                  </ColumnListItem>
-                </items>
-              </Table>
-            </IconTabFilter>
-
-            <IconTabFilter text="Log" icon="sap-icon://message-popup">
-              <List
-                items="{app>/messages}"
-                noDataText="Sin mensajes."
-                class="sfMessageList">
-                <CustomListItem>
-                  <MessageStrip
-                    text="{app>text}"
-                    type="{app>type}"
-                    showIcon="true"
-                    class="sapUiTinyMargin"/>
-                </CustomListItem>
-              </List>
-            </IconTabFilter>
-          </items>
-        </IconTabBar>
+  <VBox class="sfOriginalPage sapUiSmallMargin">
+    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sfOriginalTitleRow">
+      <VBox>
+        <Title text="Padrón Santa Fe - Percepciones IIBB" level="H1"/>
+        <ObjectStatus
+          text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Listo para cargar el padrón de percepciones' }"
+          state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
       </VBox>
-    </f:content>
-  </f:DynamicPage>
+      <Button icon="sap-icon://refresh" text="Limpiar" press=".onClear"/>
+    </HBox>
+
+    <HBox wrap="Wrap" alignItems="Center" class="sfOriginalUploadRow">
+      <Label text="Archivo" labelFor="fileUploader" class="sapUiTinyMarginEnd"/>
+      <unified:FileUploader
+        id="fileUploader"
+        width="24rem"
+        sameFilenameAllowed="true"
+        fileType="txt,csv"
+        change=".onFileChange"
+        placeholder="Seleccionar archivo de percepciones"
+        class="sapUiSmallMarginEnd"/>
+      <Button
+        text="Preparar carga"
+        icon="sap-icon://upload-to-cloud"
+        type="Emphasized"
+        enabled="{= ${app>/validRows} > 0 }"
+        press=".onPrepareUpload"/>
+    </HBox>
+
+    <HBox wrap="Wrap" alignItems="Center" class="sfOriginalStatusRow">
+      <Button
+        icon="sap-icon://table-view"
+        text="{= ${app>/validRows} + ' registros' }"
+        type="{= ${app>/activeSection} === 'records' ? 'Emphasized' : 'Transparent' }"
+        press=".onShowRecords"/>
+      <Button
+        icon="sap-icon://message-popup"
+        text="{= ${app>/messages}.length + ' eventos' }"
+        type="{= ${app>/activeSection} === 'log' ? 'Emphasized' : 'Transparent' }"
+        press=".onShowLog"/>
+      <ObjectStatus icon="sap-icon://document-text" text="{= ${app>/totalRows} + ' líneas' }" state="Information"/>
+      <ObjectStatus icon="sap-icon://create" text="{= ${app>/createdCount} + ' creados' }" state="Success"/>
+      <ObjectStatus icon="sap-icon://edit" text="{= ${app>/updatedCount} + ' actualizados' }" state="Information"/>
+      <ObjectStatus
+        icon="sap-icon://error"
+        text="{= ${app>/processedErrorCount} + ' errores' }"
+        state="{= ${app>/processedErrorCount} > 0 ? 'Error' : 'Success' }"/>
+      <ObjectStatus
+        icon="sap-icon://activity-individual"
+        text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Sin procesar' }"
+        state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'FINALIZADO_CON_ERRORES' ? 'Warning' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
+    </HBox>
+
+    <VBox visible="{= ${app>/activeSection} === 'records' }" class="sfOriginalPanel">
+      <OverflowToolbar>
+        <Title text="Registros listos para procesar" level="H2"/>
+        <ToolbarSpacer/>
+        <ObjectStatus
+          text="{= ${app>/validRows} + ' registros válidos' }"
+          state="Success"
+          icon="sap-icon://sys-enter-2"/>
+      </OverflowToolbar>
+      <ScrollContainer height="24rem" vertical="true" horizontal="false" focusable="true">
+        <Table
+          id="recordsTable"
+          mode="None"
+          sticky="ColumnHeaders"
+          growing="true"
+          growingThreshold="50"
+          items="{app>/rows}"
+          noDataText="Cargá un archivo del padrón para ver los registros válidos.">
+          <columns>
+            <Column width="9rem">
+              <Text text="CUIT"/>
+            </Column>
+            <Column width="6rem" hAlign="Center">
+              <Text text="Tipo"/>
+            </Column>
+            <Column width="9rem" hAlign="End">
+              <Text text="Alícuota Original"/>
+            </Column>
+            <Column width="9rem" hAlign="End">
+              <Text text="Alícuota SAP"/>
+            </Column>
+            <Column width="8rem">
+              <Text text="Cliente SAP"/>
+            </Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
+              <Text text="Razón Social"/>
+            </Column>
+          </columns>
+          <items>
+            <ColumnListItem type="Inactive">
+              <cells>
+                <ObjectIdentifier title="{app>cuit}" text="{= ${app>businessPartner} ? 'BP ' + ${app>businessPartner} : ${app>customer} ? 'Cliente ' + ${app>customer} : '' }"/>
+                <ObjectStatus
+                  text="{app>taxpayerType}"
+                  state="{= ${app>taxpayerType} === 'C' ? 'Warning' : 'Success' }"/>
+                <ObjectNumber number="{app>originalRate}" unit="%"/>
+                <ObjectNumber number="{app>rate}" unit="%" emphasized="true"/>
+                <Text text="{app>customer}"/>
+                <Text text="{app>companyName}" wrapping="false"/>
+              </cells>
+            </ColumnListItem>
+          </items>
+        </Table>
+      </ScrollContainer>
+    </VBox>
+
+    <VBox visible="{= ${app>/activeSection} === 'log' }" class="sfOriginalPanel">
+      <OverflowToolbar>
+        <Title text="Registro de actividad" level="H2"/>
+        <ToolbarSpacer/>
+        <ObjectStatus
+          text="{= ${app>/messages}.length + ' eventos' }"
+          state="Information"
+          icon="sap-icon://activity-items"/>
+      </OverflowToolbar>
+      <ScrollContainer height="18rem" vertical="true" horizontal="false" focusable="true">
+        <List items="{app>/messages}" noDataText="Sin mensajes.">
+          <CustomListItem>
+            <MessageStrip
+              text="{app>text}"
+              type="{app>type}"
+              showIcon="true"
+              class="sapUiTinyMargin"/>
+          </CustomListItem>
+        </List>
+      </ScrollContainer>
+    </VBox>
+  </VBox>
 </mvc:View>

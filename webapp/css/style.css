@@ -1,26 +1,17 @@
-.sfHeaderContent {
-  width: 100%;
+﻿.sfOriginalPage {
+  gap: 0.75rem;
 }
 
-.sfKpiStrip {
-  justify-content: flex-end;
+.sfOriginalTitleRow {
+  margin-bottom: 0.25rem;
 }
 
-.sfKpiItem {
-  min-width: 5.5rem;
+.sfOriginalUploadRow,
+.sfOriginalStatusRow {
+  gap: 0.75rem;
 }
 
-.sfContent {
-  box-sizing: border-box;
-}
-
-.sfMessageList {
-  background: var(--sapGroup_ContentBackground);
-}
-
-@media (max-width: 700px) {
-  .sfKpiStrip {
-    justify-content: flex-start;
-    margin-top: 0.5rem;
-  }
+.sfOriginalPanel {
+  border: 1px solid var(--sapList_BorderColor);
+  background: var(--sapList_Background);
 }
