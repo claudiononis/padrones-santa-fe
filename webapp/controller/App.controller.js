@@ -426,7 +426,6 @@ sap.ui.define([
         if (bFinished) {
           this._stopJobPolling();
           this._setPropertyIfChanged(oModel, "/busy", false);
-          window.localStorage.removeItem("padonesSantaFeLastJobId");
 
           if (bNotifyCompletion && this._completionNotifiedJobId !== sJobId) {
             this._completionNotifiedJobId = sJobId;
