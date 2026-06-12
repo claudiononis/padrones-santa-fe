@@ -2,21 +2,17 @@
   controllerName="padones.santa.fe.controller.App"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
-  xmlns:f="sap.f"
   xmlns:unified="sap.ui.unified">
   <VBox class="sfOriginalPage">
-    <f:ShellBar
-      title="Padrón Santa Fe - Percepciones IIBB"
-      showCopilot="false"
-      showProductSwitcher="false"/>
-
     <VBox class="sfPageBody">
-    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sfOriginalTitleRow">
+    <OverflowToolbar class="sfOriginalTitleRow">
+      <Title text="Padrón Santa Fe - Percepciones IIBB" level="H1"/>
+      <ToolbarSpacer/>
       <ObjectStatus
         text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Listo para cargar el padrón de percepciones' }"
         state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
       <Button icon="sap-icon://refresh" text="Limpiar" press=".onClear"/>
-    </HBox>
+    </OverflowToolbar>
 
     <HBox wrap="Wrap" alignItems="Center" class="sfOriginalUploadRow">
       <Label text="Archivo" labelFor="fileUploader" class="sapUiTinyMarginEnd"/>
