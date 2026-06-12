@@ -72,6 +72,16 @@
   white-space: nowrap;
 }
 
+.sfSectionButtonActive .sapMBtnInner {
+  background: var(--sapButton_Emphasized_Background);
+  border-color: var(--sapButton_Emphasized_BorderColor);
+  color: var(--sapButton_Emphasized_TextColor);
+}
+
+.sfSectionButtonActive .sapUiIcon {
+  color: var(--sapButton_Emphasized_TextColor);
+}
+
 .sfResultToolbar {
   border-bottom: 1px solid var(--sapGroup_TitleBorderColor);
 }

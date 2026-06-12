@@ -5,7 +5,13 @@
   xmlns:f="sap.f"
   xmlns:core="sap.ui.core"
   xmlns:unified="sap.ui.unified">
-  <f:DynamicPage id="dynamicPage" class="sapUiSizeCompact">
+  <f:DynamicPage
+    id="dynamicPage"
+    class="sapUiSizeCompact"
+    headerExpanded="true"
+    preserveHeaderStateOnScroll="true"
+    toggleHeaderOnTitleClick="false"
+    fitContent="true">
     <f:title>
       <f:DynamicPageTitle>
         <f:heading>
@@ -16,9 +22,6 @@
             text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Listo para cargar el padrón de percepciones' }"
             state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
         </f:expandedContent>
-        <f:snappedContent>
-          <Text text="Carga y procesamiento de alícuotas de percepción"/>
-        </f:snappedContent>
         <f:actions>
           <Button icon="sap-icon://refresh" text="Limpiar" press=".onClear"/>
         </f:actions>
@@ -26,7 +29,7 @@
     </f:title>
 
     <f:header>
-      <f:DynamicPageHeader pinnable="true">
+      <f:DynamicPageHeader pinnable="false">
         <VBox class="sfHeaderContent">
           <HBox wrap="Wrap" alignItems="Center" justifyContent="SpaceBetween" class="sfUploadSummaryBar">
             <HBox wrap="Wrap" alignItems="Center" class="sfUploadGroup">
@@ -50,12 +53,14 @@
               <Button
                 icon="sap-icon://table-view"
                 text="{= ${app>/validRows} + ' registros' }"
-                type="{= ${app>/activeSection} === 'records' ? 'Emphasized' : 'Transparent' }"
+                type="Transparent"
+                class="{= ${app>/activeSection} === 'records' ? 'sfSectionButtonActive' : '' }"
                 press=".onShowRecords"/>
               <Button
                 icon="sap-icon://message-popup"
                 text="{= ${app>/messages}.length + ' eventos' }"
-                type="{= ${app>/activeSection} === 'log' ? 'Emphasized' : 'Transparent' }"
+                type="Transparent"
+                class="{= ${app>/activeSection} === 'log' ? 'sfSectionButtonActive' : '' }"
                 press=".onShowLog"/>
               <ObjectStatus icon="sap-icon://document-text" text="{= ${app>/totalRows} + ' líneas' }" state="Information" class="sfSummaryPill"/>
               <ObjectStatus icon="sap-icon://create" text="{= ${app>/createdCount} + ' creados' }" state="Success" class="sfSummaryPill"/>
