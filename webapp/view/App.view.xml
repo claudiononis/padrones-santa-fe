@@ -5,18 +5,22 @@
   xmlns:f="sap.f"
   xmlns:unified="sap.ui.unified">
   <VBox class="sfOriginalPage">
-    <f:ShellBar
-      title="Padrón Santa Fe - Percepciones IIBB"
-      showCopilot="false"
-      showProductSwitcher="false"/>
-
     <VBox class="sfPageBody">
-    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sfOriginalTitleRow">
-      <ObjectStatus
-        text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Listo para cargar el padrón de percepciones' }"
-        state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
-      <Button icon="sap-icon://refresh" text="Limpiar" press=".onClear"/>
-    </HBox>
+    <ObjectHeader
+      title="Padrón Santa Fe - Percepciones IIBB"
+      intro="Carga mensual del padrón de percepciones"
+      responsive="true"
+      fullScreenOptimized="true"
+      class="sfOriginalTitleRow">
+      <statuses>
+        <ObjectStatus
+          text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Listo para cargar el padrón de percepciones' }"
+          state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
+      </statuses>
+      <actions>
+        <ObjectHeaderAction icon="sap-icon://refresh" text="Limpiar" press=".onClear"/>
+      </actions>
+    </ObjectHeader>
 
     <HBox wrap="Wrap" alignItems="Center" class="sfOriginalUploadRow">
       <Label text="Archivo" labelFor="fileUploader" class="sapUiTinyMarginEnd"/>
