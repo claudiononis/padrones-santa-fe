@@ -33,18 +33,28 @@
     </HBox>
 
     <HBox wrap="Wrap" alignItems="Center" class="sfOriginalStatusRow">
-      <Button
-        icon="sap-icon://table-view"
-        text="{= ${app>/validRows} + ' registros' }"
-        type="{= ${app>/activeSection} === 'records' ? 'Emphasized' : 'Transparent' }"
-        class="sfKpiCardButton"
-        press=".onShowRecords"/>
-      <Button
-        icon="sap-icon://message-popup"
-        text="{= ${app>/messages}.length + ' eventos' }"
-        type="{= ${app>/activeSection} === 'log' ? 'Emphasized' : 'Transparent' }"
-        class="sfKpiCardButton"
-        press=".onShowLog"/>
+      <VBox
+        alignItems="Center"
+        class="{= ${app>/activeSection} === 'records' ? 'sfSectionTile sfSectionTileActive' : 'sfSectionTile' }">
+        <Button
+          icon="sap-icon://table-view"
+          type="{= ${app>/activeSection} === 'records' ? 'Emphasized' : 'Transparent' }"
+          class="sfSectionTileIcon"
+          press=".onShowRecords"/>
+        <Text text="{= ${app>/validRows} + ' registros' }"/>
+        <Text text="Registros" class="sfSectionTileLabel"/>
+      </VBox>
+      <VBox
+        alignItems="Center"
+        class="{= ${app>/activeSection} === 'log' ? 'sfSectionTile sfSectionTileActive' : 'sfSectionTile' }">
+        <Button
+          icon="sap-icon://message-popup"
+          type="{= ${app>/activeSection} === 'log' ? 'Emphasized' : 'Transparent' }"
+          class="sfSectionTileIcon"
+          press=".onShowLog"/>
+        <Text text="{= ${app>/messages}.length + ' eventos' }"/>
+        <Text text="Log" class="sfSectionTileLabel"/>
+      </VBox>
       <VBox class="sfKpiMiniCard">
         <ObjectStatus icon="sap-icon://document-text" text="{app>/totalRows}" state="Information"/>
         <Text text="Líneas"/>
