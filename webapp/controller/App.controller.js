@@ -31,6 +31,7 @@ sap.ui.define([
     onInit: function () {
       this._jobPollTimer = null;
       this._completionNotifiedJobId = "";
+      this._lastJobSnapshot = "";
       this.getView().setModel(new JSONModel({ ...INITIAL_STATE }), "app");
 
       const sLastJobId = window.localStorage.getItem("padonesSantaFeLastJobId");
@@ -71,6 +72,7 @@ sap.ui.define([
         const oModel = this.getView().getModel("app");
 
         this._stopJobPolling();
+        this._lastJobSnapshot = "";
 
         oModel.setData({ ...INITIAL_STATE });
         oModel.setProperty("/fileName", oFile.name);
@@ -129,6 +131,7 @@ sap.ui.define([
 
     onClear: function () {
       this._stopJobPolling();
+      this._lastJobSnapshot = "";
       window.localStorage.removeItem("padonesSantaFeLastJobId");
       this.getView().getModel("app").setData({ ...INITIAL_STATE });
       this.byId("fileUploader").clear();
@@ -321,6 +324,7 @@ sap.ui.define([
       const oModel = this.getView().getModel("app");
 
       this._stopJobPolling();
+      this._lastJobSnapshot = "";
 
       oModel.setProperty("/busy", true);
       oModel.setProperty("/createdCount", 0);
@@ -402,21 +406,26 @@ sap.ui.define([
 
         const oJob = await oResponse.json();
         const bFinished = this._isTerminalJobStatus(oJob.status);
+        const sJobSnapshot = this._getJobSnapshot(oJob);
+        const bChanged = sJobSnapshot !== this._lastJobSnapshot;
 
-        oModel.setProperty("/jobStatus", oJob.status || "");
-        oModel.setProperty("/jobStartedAt", oJob.startedAt || "");
-        oModel.setProperty("/jobFinishedAt", oJob.finishedAt || "");
-        oModel.setProperty("/totalRows", oJob.totalRows || oModel.getProperty("/totalRows") || 0);
-        oModel.setProperty("/validRows", oJob.validRows || oModel.getProperty("/validRows") || 0);
-        oModel.setProperty("/errorRows", oJob.errorCount || 0);
-        oModel.setProperty("/createdCount", oJob.createdCount || 0);
-        oModel.setProperty("/updatedCount", oJob.updatedCount || 0);
-        oModel.setProperty("/processedErrorCount", oJob.errorCount || 0);
-        this._addMessage(this._buildJobMessage(oJob), true);
+        if (bChanged) {
+          this._lastJobSnapshot = sJobSnapshot;
+          this._setPropertyIfChanged(oModel, "/jobStatus", oJob.status || "");
+          this._setPropertyIfChanged(oModel, "/jobStartedAt", oJob.startedAt || "");
+          this._setPropertyIfChanged(oModel, "/jobFinishedAt", oJob.finishedAt || "");
+          this._setPropertyIfChanged(oModel, "/totalRows", oJob.totalRows || oModel.getProperty("/totalRows") || 0);
+          this._setPropertyIfChanged(oModel, "/validRows", oJob.validRows || oModel.getProperty("/validRows") || 0);
+          this._setPropertyIfChanged(oModel, "/errorRows", oJob.errorCount || 0);
+          this._setPropertyIfChanged(oModel, "/createdCount", oJob.createdCount || 0);
+          this._setPropertyIfChanged(oModel, "/updatedCount", oJob.updatedCount || 0);
+          this._setPropertyIfChanged(oModel, "/processedErrorCount", oJob.errorCount || 0);
+          this._addMessage(this._buildJobMessage(oJob), true);
+        }
 
         if (bFinished) {
           this._stopJobPolling();
-          oModel.setProperty("/busy", false);
+          this._setPropertyIfChanged(oModel, "/busy", false);
           window.localStorage.removeItem("padonesSantaFeLastJobId");
 
           if (bNotifyCompletion && this._completionNotifiedJobId !== sJobId) {
@@ -445,6 +454,27 @@ sap.ui.define([
       return sStatus === "FINALIZADO" ||
         sStatus === "FINALIZADO_CON_ERRORES" ||
         sStatus === "ERROR";
+    },
+
+    _getJobSnapshot: function (oJob) {
+      return [
+        oJob.id || "",
+        oJob.status || "",
+        oJob.startedAt || "",
+        oJob.finishedAt || "",
+        oJob.totalRows || 0,
+        oJob.validRows || 0,
+        oJob.errorCount || 0,
+        oJob.createdCount || 0,
+        oJob.updatedCount || 0,
+        oJob.message || ""
+      ].join("|");
+    },
+
+    _setPropertyIfChanged: function (oModel, sPath, vValue) {
+      if (oModel.getProperty(sPath) !== vValue) {
+        oModel.setProperty(sPath, vValue);
+      }
     },
 
     _buildJobMessage: function (oJob) {
