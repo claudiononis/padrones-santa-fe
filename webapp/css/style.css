@@ -2,6 +2,38 @@
   background: var(--sapBackgroundColor);
   gap: 0.75rem;
   min-height: calc(100vh - 2rem);
+  padding: 0;
+}
+
+.sfShellBar {
+  background: var(--sapShellColor);
+  border-bottom: 1px solid var(--sapGroup_TitleBorderColor);
+  box-shadow: var(--sapContent_HeaderShadow);
+  box-sizing: border-box;
+  min-height: 3.25rem;
+  padding: 0 2rem;
+}
+
+.sfShellLeft {
+  gap: 1rem;
+}
+
+.sfSapLogo {
+  background: #0a6ed1;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 2rem;
+  padding: 0 0.625rem;
+}
+
+.sfShellTitle {
+  font-size: 1.125rem;
+}
+
+.sfPageBody {
+  box-sizing: border-box;
+  gap: 0.75rem;
   padding: 1rem 2rem 1.5rem;
 }
 
@@ -70,7 +102,11 @@
 }
 
 @media (max-width: 700px) {
-  .sfOriginalPage {
+  .sfShellBar {
+    padding: 0 1rem;
+  }
+
+  .sfPageBody {
     padding: 0.75rem 1rem 1rem;
   }
 

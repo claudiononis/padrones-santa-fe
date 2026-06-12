@@ -4,6 +4,15 @@
   xmlns="sap.m"
   xmlns:unified="sap.ui.unified">
   <VBox class="sfOriginalPage">
+    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sfShellBar">
+      <HBox alignItems="Center" class="sfShellLeft">
+        <Text text="SAP" class="sfSapLogo"/>
+        <Title text="Padrón Santa Fe - Percepciones IIBB" level="H2" class="sfShellTitle"/>
+      </HBox>
+      <Avatar initials="DU" displaySize="XS"/>
+    </HBox>
+
+    <VBox class="sfPageBody">
     <HBox alignItems="Center" justifyContent="SpaceBetween" class="sfOriginalTitleRow">
       <VBox>
         <Title text="Padrón Santa Fe - Percepciones IIBB" level="H1"/>
@@ -149,6 +158,7 @@
           </CustomListItem>
         </List>
       </ScrollContainer>
+    </VBox>
     </VBox>
   </VBox>
 </mvc:View>
