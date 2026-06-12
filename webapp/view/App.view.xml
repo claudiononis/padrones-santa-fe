@@ -2,37 +2,20 @@
   controllerName="padones.santa.fe.controller.App"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
-  xmlns:f="sap.f"
   xmlns:core="sap.ui.core"
   xmlns:unified="sap.ui.unified">
-  <f:DynamicPage
-    id="dynamicPage"
-    class="sapUiSizeCompact"
-    headerExpanded="true"
-    preserveHeaderStateOnScroll="true"
-    toggleHeaderOnTitleClick="false">
-    <f:title>
-      <f:DynamicPageTitle>
-        <f:heading>
-          <Title text="Padrón Santa Fe - Percepciones IIBB" level="H1"/>
-        </f:heading>
-        <f:expandedContent>
-          <ObjectStatus
-            text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Listo para cargar el padrón de percepciones' }"
-            state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
-        </f:expandedContent>
-        <f:snappedContent>
-          <Text text="Carga y procesamiento de alícuotas de percepción"/>
-        </f:snappedContent>
-        <f:actions>
+  <Page id="appPage" class="sapUiSizeCompact sfPage" showHeader="false">
+    <content>
+      <VBox class="sfPageContent sapUiResponsiveContentPadding">
+        <HBox alignItems="Start" justifyContent="SpaceBetween" class="sfPageTitleRow">
+          <VBox>
+            <Title text="Padrón Santa Fe - Percepciones IIBB" level="H1"/>
+            <ObjectStatus
+              text="{= ${app>/jobStatus} ? ${app>/jobStatus} : 'Listo para cargar el padrón de percepciones' }"
+              state="{= ${app>/jobStatus} === 'FINALIZADO' ? 'Success' : ${app>/jobStatus} === 'ERROR' ? 'Error' : 'Information' }"/>
+          </VBox>
           <Button icon="sap-icon://refresh" text="Limpiar" press=".onClear"/>
-        </f:actions>
-      </f:DynamicPageTitle>
-    </f:title>
-
-    <f:header>
-      <f:DynamicPageHeader pinnable="true">
-        <VBox class="sfHeaderContent">
+        </HBox>
           <MessageStrip
             text="Subí el archivo mensual del padrón de percepciones de Santa Fe. Se calculará la alícuota SAP según el tipo de contribuyente: C divide por 2, D conserva la alícuota original."
             type="Information"
@@ -78,12 +61,7 @@
               </VBox>
             </HBox>
           </HBox>
-        </VBox>
-      </f:DynamicPageHeader>
-    </f:header>
-
-    <f:content>
-      <VBox class="sfContent sapUiResponsiveContentPadding">
+        <VBox class="sfContent">
         <HBox wrap="Wrap" alignItems="Center" justifyContent="SpaceBetween" class="sfTabSummaryBar">
           <HBox wrap="Wrap" alignItems="Center">
             <ObjectStatus icon="sap-icon://table-view" text="{= ${app>/validRows} + ' registros' }" state="Information" class="sfSummaryPill"/>
@@ -224,7 +202,8 @@
             </IconTabFilter>
           </items>
         </IconTabBar>
+        </VBox>
       </VBox>
-    </f:content>
-  </f:DynamicPage>
+    </content>
+  </Page>
 </mvc:View>
