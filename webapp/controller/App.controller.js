@@ -16,6 +16,7 @@ sap.ui.define([
     validRows: 0,
     warningRows: 0,
     errorRows: 0,
+    activeSection: "records",
     busy: false,
     jobId: "",
     jobStatus: "",
@@ -90,6 +91,14 @@ sap.ui.define([
       if (sContent) {
         this._parseContent();
       }
+    },
+
+    onShowRecords: function () {
+      this.getView().getModel("app").setProperty("/activeSection", "records");
+    },
+
+    onShowLog: function () {
+      this.getView().getModel("app").setProperty("/activeSection", "log");
     },
 
     onPrepareUpload: async function () {

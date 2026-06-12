@@ -47,9 +47,17 @@
                 press=".onPrepareUpload"/>
             </HBox>
             <HBox wrap="Wrap" alignItems="Center" class="sfSummaryKpis">
+              <Button
+                icon="sap-icon://table-view"
+                text="{= ${app>/validRows} + ' registros' }"
+                type="{= ${app>/activeSection} === 'records' ? 'Emphasized' : 'Transparent' }"
+                press=".onShowRecords"/>
+              <Button
+                icon="sap-icon://message-popup"
+                text="{= ${app>/messages}.length + ' eventos' }"
+                type="{= ${app>/activeSection} === 'log' ? 'Emphasized' : 'Transparent' }"
+                press=".onShowLog"/>
               <ObjectStatus icon="sap-icon://document-text" text="{= ${app>/totalRows} + ' líneas' }" state="Information" class="sfSummaryPill"/>
-              <ObjectStatus icon="sap-icon://table-view" text="{= ${app>/validRows} + ' registros' }" state="Success" class="sfSummaryPill"/>
-              <ObjectStatus icon="sap-icon://message-popup" text="{= ${app>/messages}.length + ' eventos' }" state="Information" class="sfSummaryPill"/>
               <ObjectStatus icon="sap-icon://create" text="{= ${app>/createdCount} + ' creados' }" state="Success" class="sfSummaryPill"/>
               <ObjectStatus icon="sap-icon://edit" text="{= ${app>/updatedCount} + ' actualizados' }" state="Information" class="sfSummaryPill"/>
               <ObjectStatus
@@ -70,10 +78,8 @@
 
     <f:content>
       <VBox class="sfContent sapUiResponsiveContentPadding">
-        <IconTabBar expandable="false" class="sapUiNoContentPadding sfContentTabs">
-          <items>
-            <IconTabFilter text="Registros" icon="sap-icon://table-view" count="{app>/validRows}">
-              <VBox class="sfResultCard">
+        <VBox class="sfContentTabs">
+              <VBox class="sfResultCard" visible="{= ${app>/activeSection} === 'records' }">
                 <OverflowToolbar class="sfResultToolbar">
                   <Title text="Resultados de validación" level="H2"/>
                   <ToolbarSpacer/>
@@ -144,10 +150,8 @@
                   </Table>
                 </ScrollContainer>
               </VBox>
-            </IconTabFilter>
 
-            <IconTabFilter text="Log" icon="sap-icon://message-popup">
-              <VBox class="sfResultCard">
+              <VBox class="sfResultCard" visible="{= ${app>/activeSection} === 'log' }">
                 <OverflowToolbar class="sfResultToolbar">
                   <Title text="Registro de actividad" level="H2"/>
                   <ToolbarSpacer/>
@@ -180,9 +184,7 @@
                   </List>
                 </ScrollContainer>
               </VBox>
-            </IconTabFilter>
-          </items>
-        </IconTabBar>
+        </VBox>
       </VBox>
     </f:content>
   </f:DynamicPage>

@@ -72,10 +72,6 @@
   white-space: nowrap;
 }
 
-.sfContentTabs .sapMITBContent {
-  overflow: visible;
-}
-
 .sfResultToolbar {
   border-bottom: 1px solid var(--sapGroup_TitleBorderColor);
 }
